@@ -1,125 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>R'pet Station</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/book_appointment.css">
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="images/RPetStationBrand.png" alt="R'pet Station Logo" />
-      <span>R'pet Station</span>
-    </div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#feedbacks">Feedbacks</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>R'pet Station</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/book_appointment.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/view_services.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="images/RPetStationBrand.png" alt="R'pet Station Logo" />
+        <span>R'pet Station</span>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#feedbacks">Feedbacks</a>
+        <a href="#login" onclick="openLoginModal()">Login</a>
+      </nav>
+    </header>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-container">
-        <div class="hero-content">
-          <h1>Welcome to <br />R'pet Station</h1>
-          <div class="buttons">
-            <button onclick="openModal()">Book an appointment</button>
-            <button>View Services</button>
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-container">
+          <div class="hero-content">
+            <h1>Welcome to <br />R'pet Station</h1>
+            <div class="buttons">
+              <button onclick="openModal()">Book an appointment</button>
+              <button onclick="openServicesModal()">View Services</button>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="images/VetNurse.png" alt="Vet with pet" />
           </div>
         </div>
-        <div class="hero-image">
-          <img src="images/VetNurse.png" alt="Vet with pet" />
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="about">
+        <div class="container-about">
+          <h2>About R'pet Station</h2>
+          <p>
+            R'pet Station is dedicated to providing top-notch care for your
+            pets, offering a variety of services from grooming to veterinary
+            care. Our team of professional veterinarians and pet care
+            specialists are committed to ensuring the health and happiness of
+            your beloved companions. Trust us to give your pets the quality care
+            they deserve.
+          </p>
+        </div>
+      </section>
+
+      <!-- Feedbacks Section -->
+      <section id="feedbacks" class="feedbacks">
+        <div class="container">
+          <h2>What Our Clients Say</h2>
+          <p>
+            "R'pet Station has been amazing for my dog. Their grooming services
+            are top-notch and the staff is incredibly caring."
+          </p>
+          <!-- Add more feedbacks as needed -->
+        </div>
+      </section>
+      <!-- Appointment Modal -->
+      <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+          <h1>Book an Appointment</h1>
+          <form class="appointment-form">
+            <div class="form-section pet-info">
+              <h2>Pet Information</h2>
+
+              <label>Pet Type</label>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  id="dog"
+                  name="petType"
+                  value="Dog"
+                  required
+                />
+                <label for="dog">Dog</label>
+                <input
+                  type="radio"
+                  id="cat"
+                  name="petType"
+                  value="Cat"
+                  required
+                />
+                <label for="cat">Cat</label>
+              </div>
+
+              <label for="breed">Breed</label>
+              <input
+                type="text"
+                id="breed"
+                name="breed"
+                placeholder="Insert your pet breed"
+                required
+              />
+
+              <label for="age">Age</label>
+              <input
+                type="text"
+                id="age"
+                name="age"
+                placeholder="e.g., 2 years old"
+                required
+              />
+
+              <label>Service(s)</label>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  id="grooming"
+                  name="service"
+                  value="Grooming"
+                  required
+                />
+                <label for="grooming">Grooming</label>
+                <input
+                  type="radio"
+                  id="veterinary"
+                  name="service"
+                  value="Veterinary"
+                  required
+                />
+                <label for="veterinary">Veterinary</label>
+
+                <!-- Grooming Combo Boxes (initially hidden) -->
+                <div id="grooming-options" style="display: none">
+                  <label for="groomingService">Select Grooming Service:</label>
+                  <select id="groomingService">
+                    <option value="fullgroom-short">
+                      Full Groom for Shorthair (Ear Cleaning, Nail Clipping,
+                      Bath Only)
+                    </option>
+                    <option value="fullgroom-long">
+                      Full Groom for Long Hair (Ear Cleaning, Nail Clipping,
+                      Bath Only)
+                    </option>
+                    <option value="sanitary-trim">
+                      Sanitary or Trim Cut / Skinhead
+                    </option>
+                    <option value="semi-puppy">
+                      Semi Puppy Cut / Lion Cut
+                    </option>
+                    <option value="puppy-poole">Puppy Cut / Poodle Cut</option>
+                    <option value="haircut-only">Haircut Only</option>
+                  </select>
+
+                  <label for="size">Select Size Category:</label>
+                  <select id="size">
+                    <option value="s">Small (8kg Below)</option>
+                    <option value="m">Medium (9-16kg)</option>
+                    <option value="l">Large (17-24kg)</option>
+                    <option value="xl">XL (25-32kg)</option>
+                    <option value="xxl">XXL (33kg Above)</option>
+                  </select>
+                </div>
+
+                <!-- Veterinary Combo Box (initially hidden) -->
+                <div id="veterinary-options" style="display: none">
+                  <label for="veterinaryService"
+                    >Select Veterinary Service:</label
+                  >
+                  <select id="veterinaryService">
+                    <option value="5in1">5in1 - $420</option>
+                    <option value="6in1">6in1 - $600</option>
+                    <option value="8in1">8in1 - $750</option>
+                    <option value="anti-rabies">Anti Rabies - $300</option>
+                    <option value="kennel-cough">Kennel Cough - $550</option>
+                    <option value="4in1">4in1 - $850</option>
+                  </select>
+                </div>
+              </div>
+              <label for="schedule-date">Appointment Schedule</label>
+              <input
+                type="date"
+                id="schedule-date"
+                name="schedule-date"
+                required
+              />
+              <input
+                type="time"
+                id="schedule-time"
+                name="schedule-time"
+                required
+              />
+            </div>
+
+            <div class="form-section owner-info">
+              <h2>Owner Information</h2>
+
+              <label for="ownerName">Name</label>
+              <input
+                type="text"
+                id="ownerName"
+                name="ownerName"
+                placeholder="Kurt D. Carreon"
+                required
+              />
+
+              <label for="contactNumber">Contact Number</label>
+              <input
+                type="text"
+                id="contactNumber"
+                name="contactNumber"
+                placeholder="09xxxxxxxx"
+                required
+              />
+
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="kurtcarreon2@gmail.com"
+                required
+              />
+
+              <label for="address">Address</label>
+              <textarea
+                id="address"
+                name="address"
+                placeholder="Your address here"
+                required
+              ></textarea>
+
+              <!-- Price Display -->
+              <div id="price-display">
+                <p id="price">Price:</p>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="confirm">Confirm</button>
+                <button type="button" class="cancel" onclick="closeModal()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-      <div class="container-about">
-        <h2>About R'pet Station</h2>
-        <p>
-          R'pet Station is dedicated to providing top-notch care for your pets, offering a variety of services from grooming to veterinary care. Our team of professional veterinarians and pet care specialists are committed to ensuring the health and happiness of your beloved companions. Trust us to give your pets the quality care they deserve.
-        </p>
-      </div>
-    </section>
-
-    <!-- Feedbacks Section -->
-    <section id="feedbacks" class="feedbacks">
-      <div class="container">
-        <h2>What Our Clients Say</h2>
-        <p>
-          "R'pet Station has been amazing for my dog. Their grooming services are top-notch and the staff is incredibly caring."
-        </p>
-        <!-- Add more feedbacks as needed -->
-      </div>
-    </section>
-
-    <!-- Appointment Modal -->
-    <div id="appointmentModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h1>Book an Appointment</h1>
-        <form class="appointment-form">
-          <div class="form-section pet-info">
-            <h2>Pet Information</h2>
-            
-            <label>Pet Type</label>
-            <div class="radio-group">
-              <input type="radio" id="dog" name="petType" value="Dog" required />
-              <label for="dog">Dog</label>
-              <input type="radio" id="cat" name="petType" value="Cat" required />
-              <label for="cat">Cat</label>
-            </div>
-            
-            <label for="breed">Breed</label>
-            <input type="text" id="breed" name="breed" placeholder="Insert your pet breed" required />
-            
-            <label for="age">Age</label>
-            <input type="text" id="age" name="age" placeholder="e.g., 2 years old" required />
-    
-            <label>Service(s)</label>
-            <div class="radio-group">
-              <input type="radio" id="grooming" name="service" value="Grooming" required />
-              <label for="grooming">Grooming</label>
-              <input type="radio" id="veterinary" name="service" value="Veterinary" required />
-              <label for="veterinary">Veterinary</label>
-            </div>
-            <input type="text" placeholder="Type your preferred service" name="customService" />
-    
-            <label for="schedule-date">Appointment Schedule</label>
-            <input type="date" id="schedule-date" name="schedule-date" required />
-            <input type="time" id="schedule-time" name="schedule-time" required />
+      <!-- View Services Modal -->
+      <div id="servicesModal" class="modal-services">
+        <div class="modal-content-services">
+          <span class="close-services" onclick="closeServicesModal()"
+            >&times;</span
+          >
+          <div class="services-section">
+            <h2>GROOMING SERVICES</h2>
+            <ul>
+              <li>🐾 Haircut</li>
+              <li>🐾 Teeth Brushing</li>
+              <li>🐾 Ear Cleaning</li>
+              <li>🐾 Nail Trim</li>
+              <li>🐾 Bath and Blow Dry</li>
+            </ul>
           </div>
-    
-          <div class="form-section owner-info">
-            <h2>Owner Information</h2>
-            
-            <label for="ownerName">Name</label>
-            <input type="text" id="ownerName" name="ownerName" placeholder="Kurt D. Carreon" required />
-    
-            <label for="contactNumber">Contact Number</label>
-            <input type="text" id="contactNumber" name="contactNumber" placeholder="09xxxxxxxx" required />
-    
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="kurtcarreon2@gmail.com" required />
-    
-            <label for="address">Address</label>
-            <textarea id="address" name="address" placeholder="Your address here" required></textarea>
-    
+          <div class="services-section">
+            <h2>VETERINARY SERVICES</h2>
+            <ul>
+              <li>🐾 Consultation</li>
+              <li>🐾 Vaccination</li>
+              <li>🐾 Deworming</li>
+              <li>🐾 Dental Health</li>
+              <li>🐾 Surgery</li>
+              <li>🐾 Prescription</li>
+              <li>🐾 Medicine & Diet</li>
+            </ul>
+          </div>
+          <div class="services-image">
+            <img
+              src="images/RPetStationBrand.png"
+              alt="Services Image"
+              style="width: 100%; height: auto"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- Login Modal -->
+      <div id="loginModal" class="modal-login">
+        <div class="modal-content-login">
+          <span class="close" onclick="closeLoginModal()">&times;</span>
+          <h1>Login</h1>
+          <form class="login-form">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+
+            <label for="password" class="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+
             <div class="form-actions">
-              <button type="submit" class="confirm">Confirm</button>
-              <button type="button" class="cancel" onclick="closeModal()">Cancel</button>
+              <button type="submit" class="confirm">Login</button>
+              <button type="button" class="cancel" onclick="closeLoginModal()">
+                Cancel
+              </button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    
-  </main>
+    </main>
 
-  <script src="js/book_appointment.js"></script>
-</body>
+    <script src="js/book_appointment.js"></script>
+    <script src="js/login.js"></script>
+    <!--SCRIPT FOR SERVICES-->
+    <script>
+      // Function to open the services modal
+      function openServicesModal() {
+        const modal = document.getElementById("servicesModal");
+        modal.style.display = "block";
+        setTimeout(() => {
+          document
+            .querySelector(".modal-content-services")
+            .classList.add("show");
+        }, 10); // Small delay to trigger the transition
+      }
+
+      // Function to close the services modal
+      function closeServicesModal() {
+        const modalContent = document.querySelector(".modal-content-services");
+        modalContent.classList.remove("show");
+        setTimeout(() => {
+          document.getElementById("servicesModal").style.display = "none";
+        }, 400); // Match the transition duration
+      }
+    </script>
+  </body>
 </html>

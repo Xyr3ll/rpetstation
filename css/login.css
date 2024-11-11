@@ -1,0 +1,87 @@
+/* Basic Modal Styling for Login */
+.modal-login {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content-login {
+    background-color: #f3c623;
+    margin: 5% auto;
+    padding: 50px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Login Form Styling */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .login-form label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    padding: 18px 0;
+    border: none;
+    border-bottom: 1px solid #333; /* Darker border color */
+    background-color: transparent;
+    outline: none;
+    color: #333; /* Text color */
+    font-size: 16px;
+  }
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .form-actions button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .confirm {
+    background-color: #004a99;
+    color: white;
+  }
+  
+  .cancel {
+    background-color: #ccc;
+    color: black;
+  }
+  
