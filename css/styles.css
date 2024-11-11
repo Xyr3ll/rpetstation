@@ -9,18 +9,22 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #FFCC00;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes up at least the full height of the viewport */
+    flex-direction: column;; /* Adjust based on header height */
 }
 
 /* Header */
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
-    background-color: #33333300;
+    padding: 10px 50px;
+    background-color: #ffcc00;
+    z-index: 1000; /* Ensure the header is above other content */
+    box-shadow: 0px 2px 5px rgba(58, 58, 58, 0.466);
 }
 
 /* Logo */
@@ -37,32 +41,32 @@ header .logo img {
 
 header .logo span {
     font-size: 30px;
-    color: rgb(0, 0, 0);
+    color: #000000;
     font-weight: bold;
 }
 
 /* Navigation */
 nav {
     display: flex;
-    gap: 30px; /* Space between navigation items */
+    gap: 30px;
 }
 
 nav a {
-    color: rgb(0, 0, 0);
+    color: #000000;
     font-size: 1rem;
     font-weight: bold;
     text-decoration: none;
     padding: 10px 15px;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav a:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Light background on hover */
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     text-decoration: underline;
 }
 
-/* Dropdown Menu */
+/* Dropdown Menu (If needed) */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -72,14 +76,14 @@ nav a:hover {
     border: none;
     cursor: pointer;
     background-color: transparent;
-    color: rgb(0, 0, 0);
+    color: #fff;
     font-weight: bold;
     padding: 10px 15px;
     transition: background-color 0.3s;
 }
 
 .dropdown button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
 }
 
@@ -113,12 +117,25 @@ nav a:hover {
 /* Hero Section */
 .hero {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 50px 50px;
+    padding: 100px;
+    margin: 0;
     background-color: #FFCC00;
-    margin-left: 50px;
-    margin-bottom: 159px;   
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 100px;
+    background-color: #ffcf0d;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .hero-content {
@@ -128,12 +145,12 @@ nav a:hover {
 .hero h1 {
     font-size: 5rem;
     color: #333;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .hero .buttons {
     display: flex;
-    flex-direction: column; /* Stack buttons vertically */
+    flex-direction: column;
 }
 
 .hero .buttons button {
@@ -141,14 +158,16 @@ nav a:hover {
     background-color: #004a99;
     color: white;
     border: none;
-    margin-bottom: 15px; /* Space between the buttons */
+    margin-bottom: 15px;
     cursor: pointer;
-    font-size: 30px;
+    font-size: 1.2rem;
     border-radius: 40px;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .hero .buttons button:hover {
     background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .hero-image img {
@@ -157,27 +176,64 @@ nav a:hover {
 }
 
 /* Container */
-.container {
+.container-about {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
+    width: 90%;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    padding: 100px;
+    background-color: #ffcf0d;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-bottom: 200px;
+    padding: 20px;
+    width: 90%;
+    padding: 100px;
+    background-color: #ffcf0d;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 /* About Section */
 .about {
-    background-color: #FFF8DC; /* Light background color */
-    padding: 50px 0; /* Vertical padding */
+    background-color: #FFCC00;
+    padding: 50px 20px;
     text-align: center;
 }
 
 .about h2 {
-    font-size: 36px;
+    font-size: 2.5rem;
     color: #333;
     margin-bottom: 20px;
 }
 
 .about p {
-    font-size: 18px;
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Feedbacks Section */
+.feedbacks {
+    background-color: #FFCC00;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.feedbacks h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.feedbacks p {
+    font-size: 1.2rem;
     color: #555;
     line-height: 1.6;
     margin-bottom: 15px;

@@ -1,52 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>R'pet Station</title>
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <header>
-      <div class="logo">
-        <img src="images/RPetStationBrand.png" alt="R'pet Station Logo" />
-        <span>R'pet Station</span>
-      </div>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#feedbacks">Feedbacks</a>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>R'pet Station</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/book_appointment.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/RPetStationBrand.png" alt="R'pet Station Logo" />
+      <span>R'pet Station</span>
+    </div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#feedbacks">Feedbacks</a>
+    </nav>
+  </header>
 
-    <main>
-      <section id="home" class="hero">
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-container">
         <div class="hero-content">
           <h1>Welcome to <br />R'pet Station</h1>
           <div class="buttons">
-            <button>Book an appointment</button>
+            <button onclick="openModal()">Book an appointment</button>
             <button>View Services</button>
           </div>
         </div>
         <div class="hero-image">
           <img src="images/VetNurse.png" alt="Vet with pet" />
         </div>
-      </section>
-      <!-- About Section -->
-      <section id="about" class="about">
-        <div class="container">
-          <h2>About Us</h2>
-          <p>
-            R'pet Station is dedicated to providing the best care for your pets.
-            Our team of professional veterinarians and nurses is committed to
-            ensuring your pets' health and happiness.
-          </p>
-          <p>
-            We offer a range of services, from routine check-ups to advanced
-            treatments, all designed to give your pets the care they deserve.
-          </p>
-        </div>
-      </section>
-    </main>
-  </body>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container-about">
+        <h2>About R'pet Station</h2>
+        <p>
+          R'pet Station is dedicated to providing top-notch care for your pets, offering a variety of services from grooming to veterinary care. Our team of professional veterinarians and pet care specialists are committed to ensuring the health and happiness of your beloved companions. Trust us to give your pets the quality care they deserve.
+        </p>
+      </div>
+    </section>
+
+    <!-- Feedbacks Section -->
+    <section id="feedbacks" class="feedbacks">
+      <div class="container">
+        <h2>What Our Clients Say</h2>
+        <p>
+          "R'pet Station has been amazing for my dog. Their grooming services are top-notch and the staff is incredibly caring."
+        </p>
+        <!-- Add more feedbacks as needed -->
+      </div>
+    </section>
+
+    <!-- Appointment Modal -->
+    <div id="appointmentModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1>Book an Appointment</h1>
+        <form class="appointment-form">
+          <div class="form-section pet-info">
+            <h2>Pet Information</h2>
+            
+            <label>Pet Type</label>
+            <div class="radio-group">
+              <input type="radio" id="dog" name="petType" value="Dog" required />
+              <label for="dog">Dog</label>
+              <input type="radio" id="cat" name="petType" value="Cat" required />
+              <label for="cat">Cat</label>
+            </div>
+            
+            <label for="breed">Breed</label>
+            <input type="text" id="breed" name="breed" placeholder="Insert your pet breed" required />
+            
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age" placeholder="e.g., 2 years old" required />
+    
+            <label>Service(s)</label>
+            <div class="radio-group">
+              <input type="radio" id="grooming" name="service" value="Grooming" required />
+              <label for="grooming">Grooming</label>
+              <input type="radio" id="veterinary" name="service" value="Veterinary" required />
+              <label for="veterinary">Veterinary</label>
+            </div>
+            <input type="text" placeholder="Type your preferred service" name="customService" />
+    
+            <label for="schedule-date">Appointment Schedule</label>
+            <input type="date" id="schedule-date" name="schedule-date" required />
+            <input type="time" id="schedule-time" name="schedule-time" required />
+          </div>
+    
+          <div class="form-section owner-info">
+            <h2>Owner Information</h2>
+            
+            <label for="ownerName">Name</label>
+            <input type="text" id="ownerName" name="ownerName" placeholder="Kurt D. Carreon" required />
+    
+            <label for="contactNumber">Contact Number</label>
+            <input type="text" id="contactNumber" name="contactNumber" placeholder="09xxxxxxxx" required />
+    
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="kurtcarreon2@gmail.com" required />
+    
+            <label for="address">Address</label>
+            <textarea id="address" name="address" placeholder="Your address here" required></textarea>
+    
+            <div class="form-actions">
+              <button type="submit" class="confirm">Confirm</button>
+              <button type="button" class="cancel" onclick="closeModal()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </main>
+
+  <script src="js/book_appointment.js"></script>
+</body>
 </html>
