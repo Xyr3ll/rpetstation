@@ -132,42 +132,51 @@
 
                 <!-- Grooming Combo Boxes (initially hidden) -->
                 <div id="grooming-options" style="display: none">
-                  <label for="groomingService">Select Grooming Service:</label>
-                  <select id="groomingService">
-                    <option value="fullgroom-short">
-                      Full Groom for Shorthair (Ear Cleaning, Nail Clipping,
-                      Bath Only)
-                    </option>
-                    <option value="fullgroom-long">
-                      Full Groom for Long Hair (Ear Cleaning, Nail Clipping,
-                      Bath Only)
-                    </option>
-                    <option value="sanitary-trim">
-                      Sanitary or Trim Cut / Skinhead
-                    </option>
-                    <option value="semi-puppy">
-                      Semi Puppy Cut / Lion Cut
-                    </option>
-                    <option value="puppy-poole">Puppy Cut / Poodle Cut</option>
-                    <option value="haircut-only">Haircut Only</option>
-                  </select>
+                  <div class="grooming-option-container">
+                    <label for="groomingService" class="form-label"
+                      >Select Grooming Service:</label
+                    >
+                    <select id="groomingService" class="custom-select">
+                      <option value="fullgroom-short">
+                        Full Groom for Shorthair (Ear Cleaning, Nail Clipping,
+                        Bath Only)
+                      </option>
+                      <option value="fullgroom-long">
+                        Full Groom for Long Hair (Ear Cleaning, Nail Clipping,
+                        Bath Only)
+                      </option>
+                      <option value="sanitary-trim">
+                        Sanitary or Trim Cut / Skinhead
+                      </option>
+                      <option value="semi-puppy">
+                        Semi Puppy Cut / Lion Cut
+                      </option>
+                      <option value="puppy-poole">
+                        Puppy Cut / Poodle Cut
+                      </option>
+                      <option value="haircut-only">Haircut Only</option>
+                    </select>
+                  </div>
 
-                  <label for="size">Select Size Category:</label>
-                  <select id="size">
-                    <option value="s">Small (8kg Below)</option>
-                    <option value="m">Medium (9-16kg)</option>
-                    <option value="l">Large (17-24kg)</option>
-                    <option value="xl">XL (25-32kg)</option>
-                    <option value="xxl">XXL (33kg Above)</option>
-                  </select>
+                  <div class="grooming-option-container">
+                    <label for="size" class="form-label"
+                      >Select Size Category:</label
+                    >
+                    <select id="size" class="custom-select">
+                      <option value="s">Small (8kg Below)</option>
+                      <option value="m">Medium (9-16kg)</option>
+                      <option value="l">Large (17-24kg)</option>
+                      <option value="xl">XL (25-32kg)</option>
+                      <option value="xxl">XXL (33kg Above)</option>
+                    </select>
+                  </div>
                 </div>
-
                 <!-- Veterinary Combo Box (initially hidden) -->
                 <div id="veterinary-options" style="display: none">
                   <label for="veterinaryService"
                     >Select Veterinary Service:</label
                   >
-                  <select id="veterinaryService">
+                  <select id="veterinaryService"  class="custom-select">
                     <option value="5in1">5in1 - $420</option>
                     <option value="6in1">6in1 - $600</option>
                     <option value="8in1">8in1 - $750</option>
@@ -177,7 +186,9 @@
                   </select>
                 </div>
               </div>
-              <label for="schedule-date">Appointment Schedule</label>
+              <label for="schedule-date" class="appointment"
+                >Appointment Schedule</label
+              >
               <input
                 type="date"
                 id="schedule-date"
@@ -285,7 +296,6 @@
       <!-- Login Modal -->
       <div id="loginModal" class="modal-login">
         <div class="modal-content-login">
-          <span class="close" onclick="closeLoginModal()">&times;</span>
           <h1>Login</h1>
           <form class="login-form">
             <label for="username">Username</label>
@@ -317,7 +327,7 @@
       </div>
     </main>
 
-    <script src="js/book_appointment.js"></script>
+    <script type="module" src="../js/appointment/book_appointment.js"></script>
     <script src="js/login.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
@@ -339,6 +349,17 @@
         setTimeout(() => {
           document.getElementById("servicesModal").style.display = "none";
         }, 400); // Match the transition duration
+      }
+    </script>
+    <script>
+      // Open the modal
+      function openModal() {
+        document.getElementById("appointmentModal").style.display = "block";
+      }
+
+      // Close the modal
+      function closeModal() {
+        document.getElementById("appointmentModal").style.display = "none";
       }
     </script>
   </body>

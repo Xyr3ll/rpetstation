@@ -1,152 +1,202 @@
 /* Modal background */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-  
-  /* Modal content */
-  .modal-content {
-    background-color: #f3c623; /* Yellow background */
-    margin: 10% auto;
-    margin-top: 5%;
-    padding: 20px;
-    border-radius: 20px;
-    width: 50%;
-    max-width: 900px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Close button */
-  .close {
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  /* Section titles */
-  h1 {
-    color: #333;
-    text-align: center;
-  }
-  h2{
-    color: #333;
-    margin-bottom: 30px;
-  }
-  
-  .appointment-form {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;  
-  }
-  
-  .form-section {
-    width: 48%;
-    margin: 50px;
-  }
-  
-  label {
-    display: block;
-    margin: 10px 0 10px;
-    font-weight: bold;
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
 
+/* Modal content */
+.modal-content {
+  background-color: #f3c623; /* Yellow background */
+  margin: 10% auto;
+  margin-top: 5%;
+  padding: 20px;
+  border-radius: 20px;
+  width: 50%;
+  max-width: 900px;
+  font-family: Arial, sans-serif;
+}
+
+/* Close button */
+.close {
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Section titles */
+h1 {
+  color: #333;
+  text-align: center;
+}
+h2 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.appointment-form {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.appointment {
+    margin-top: 140px;
+}
+.form-section {
+  width: 48%;
+  margin: 50px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 10px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+textarea {
+  width: 100%;
+  border: none;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #333; /* Darker border color */
+  background-color: transparent;
+  outline: none;
+  color: #333; /* Text color */
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="date"]::placeholder,
+input[type="time"]::placeholder,
+textarea::placeholder {
+  color: #888888c1;
+}
+
+.radio-group {
+  display: flex;
+
+  align-items: center;
+  gap: 5px;
+}
+.radio-group label {
+  margin-right: 50px;
+}
+
+textarea {
+  resize: none;
+  height: 45px;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.form-actions .confirm,
+.form-actions .cancel {
+  padding: 20px 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  width: 48%; /* Ensure buttons don't stretch full width */
+  font-size: 16px;
+  margin-top: 90px;
+}
+.form-actions .confirm {
+  background-color: #0066cc;
+  color: white;
+}
+
+.form-actions .cancel {
+  background-color: #888;
+  color: white;
+}
+
+#grooming-options {
+  display: block;
+  position: absolute;
+  margin-top: 150px;
+  width: 299px;
+}
+
+#veterinary-options {
+  display: block;
+  position: absolute;
+  width: 299px;
+  margin-top: 92px;
+}
+
+/* Custom arrow for select box */
+.custom-select {
+  width: 100%;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  appearance: none; /* Removes default arrow in most browsers */
+  -webkit-appearance: none; /* Removes default arrow for Safari */
+  -moz-appearance: none; /* Removes default arrow for Firefox */
+}
+
+/* Custom arrow for select box */
+.custom-select::after {
+  content: "▼"; /* Downward arrow */
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #333;
+}
+
+/* Focus effect for the select box */
+.custom-select:focus {
+  border-color: #4CAF50; /* Green border on focus */
+  background-color: #e7f5e7;
+  outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* On tablet and mobile screens */
+  .modal-content {
+    width: 95%; /* Slightly narrower for mobile */
+    margin: 10% auto;
   }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="date"],
-  input[type="time"],
-  textarea {
-    width: 100%;
-    padding: 8px 0;
-    border: none;
-    border-bottom: 1px solid #333; /* Darker border color */
-    background-color: transparent;
-    outline: none;
-    color: #333; /* Text color */
-    font-size: 16px;
-    margin-bottom: 10px;
+
+  .appointment-form {
+    flex-direction: column; /* Stack form fields vertically */
   }
-  input[type="text"]::placeholder,
-  input[type="email"]::placeholder,
-  input[type="date"]::placeholder,
-  input[type="time"]::placeholder,
-  textarea::placeholder {
-    color: #888888c1; /* Lighter color for placeholder text */
+
+  .form-section {
+    width: 100%; /* Full width for form fields */
+    margin: 0;
   }
-  
-  .radio-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .radio-group label{
-    margin-right: 50px;
-  }
-  
-  textarea {
-    resize: none;
-    height: 40px;
-  }
-  
+
   .form-actions {
-    text-align: right;
+    text-align: center; /* Center buttons on small screens */
   }
-  
+
   .form-actions .confirm,
   .form-actions .cancel {
-      padding: 20px 30px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-
-      width: 48%; /* Ensure buttons don't stretch full width */
-      font-size: 16px;
-      margin-top: 90px;
+    width: 100%; /* Full width buttons on mobile */
+    margin-right: 0; /* Remove right margin */
   }
-  .form-actions .confirm {
-    background-color: #0066cc;
-    color: white;
-}
-  
-  .form-actions .cancel {
-    background-color: #888;
-    color: white;
-}
-
-  /* Responsive Styles */
-@media (max-width: 768px) {
-    /* On tablet and mobile screens */
-    .modal-content {
-        width: 95%; /* Slightly narrower for mobile */
-        margin: 10% auto;
-    }
-  
-    .appointment-form {
-        flex-direction: column; /* Stack form fields vertically */
-    }
-  
-    .form-section {
-        width: 100%; /* Full width for form fields */
-        margin: 0;
-    }
-  
-    .form-actions {
-        text-align: center; /* Center buttons on small screens */
-    }
-  
-    .form-actions .confirm,
-    .form-actions .cancel {
-        width: 100%; /* Full width buttons on mobile */
-        margin-right: 0; /* Remove right margin */
-    }
 }

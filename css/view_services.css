@@ -26,7 +26,7 @@
 }
 
 .modal-content-services.show {
-  right: 10%; /* Slide the modal in from the right */
+  right: 1%; /* Slide the modal in from the right */
 }
 .modal-image img {
   width: 80%;  /* Adjust the width of the image */
