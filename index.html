@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/book_appointment.css" />
     <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/payment.css" />
+
     <link rel="stylesheet" href="css/view_services.css" />
   </head>
   <body>
@@ -65,6 +67,7 @@
           <!-- Add more feedbacks as needed -->
         </div>
       </section>
+
       <!-- Appointment Modal -->
       <div id="appointmentModal" class="modal">
         <div class="modal-content">
@@ -117,7 +120,7 @@
                   type="radio"
                   id="grooming"
                   name="service"
-                  value="Grooming"
+                  value="grooming"
                   required
                 />
                 <label for="grooming">Grooming</label>
@@ -125,7 +128,7 @@
                   type="radio"
                   id="veterinary"
                   name="service"
-                  value="Veterinary"
+                  value="veterinary"
                   required
                 />
                 <label for="veterinary">Veterinary</label>
@@ -176,13 +179,13 @@
                   <label for="veterinaryService"
                     >Select Veterinary Service:</label
                   >
-                  <select id="veterinaryService"  class="custom-select">
-                    <option value="5in1">5in1 - $420</option>
-                    <option value="6in1">6in1 - $600</option>
-                    <option value="8in1">8in1 - $750</option>
-                    <option value="anti-rabies">Anti Rabies - $300</option>
-                    <option value="kennel-cough">Kennel Cough - $550</option>
-                    <option value="4in1">4in1 - $850</option>
+                  <select id="veterinaryService" class="custom-select">
+                    <option value="5in1">5in1 - ₱420</option>
+                    <option value="6in1">6in1 - ₱600</option>
+                    <option value="8in1">8in1 - ₱750</option>
+                    <option value="anti-rabies">Anti Rabies - ₱300</option>
+                    <option value="kennel-cough">Kennel Cough - ₱550</option>
+                    <option value="4in1">4in1 - ₱850</option>
                   </select>
                 </div>
               </div>
@@ -247,7 +250,9 @@
               </div>
 
               <div class="form-actions">
-                <button type="submit" class="confirm">Confirm</button>
+                <button type="submit" class="confirm" id="confirmButton">
+                  Next
+                </button>
                 <button type="button" class="cancel" onclick="closeModal()">
                   Cancel
                 </button>
@@ -256,6 +261,81 @@
           </form>
         </div>
       </div>
+
+      <!-- Payment Modal -->
+      <div id="paymentModal" class="modal">
+        <div class="modal-content">
+          <h1>Payment</h1>
+          <form class="payment-form">
+            <!-- Payment Details Section -->
+            <div class="form-section payment-info">
+              <!-- Mode of Payment Section -->
+              <label for="accountName">Account Name</label>
+              <input
+                type="text"
+                id="accountName"
+                name="accountName"
+                placeholder="Enter Account Name"
+                required
+              />
+
+              <label for="accountNumber">Account Number</label>
+              <input
+                type="text"
+                id="accountNumber"
+                name="accountNumber"
+                placeholder="Enter Account Number"
+                required
+              />
+
+              <label for="proofOfPayment">Proof of Payment</label>
+              <input
+                type="file"
+                id="proofOfPayment"
+                name="proofOfPayment"
+                accept="image/*"
+                required
+              />
+            </div>
+
+            <div class="form-section gcash-info">
+              <!-- Mode of Payment Section -->
+              <label for="paymentMethod">Mode of Payment</label>
+
+              <!-- QR Image Section -->
+              <div id="qrImageContainer">
+                <img
+                  id="qrImage"
+                  alt="QR Code"
+                  src="/images/gcash.jpg"
+                  style="max-width: 300px"
+                />
+              </div>
+
+              <select
+                id="paymentMethod"
+                name="paymentMethod"
+                onchange="changeQR()"
+              >
+                <option value="gcash">GCash</option>
+                <option value="paymaya">Paymaya</option>
+              </select>
+
+              <div class="form-actions">
+                <button type="submit" class="confirm">Submit</button>
+                <button
+                  type="button"
+                  class="cancel"
+                  onclick="closePaymentModal()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <!-- View Services Modal -->
       <div id="servicesModal" class="modal-services">
         <div class="modal-content-services">
@@ -329,10 +409,11 @@
 
     <script type="module" src="../js/appointment/book_appointment.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/payment.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
-      // Function to open the services modal
-      function openServicesModal() {
+       // Function to open the services modal
+       function openServicesModal() {
         const modal = document.getElementById("servicesModal");
         modal.style.display = "block";
         setTimeout(() => {
@@ -350,8 +431,6 @@
           document.getElementById("servicesModal").style.display = "none";
         }, 400); // Match the transition duration
       }
-    </script>
-    <script>
       // Open the modal
       function openModal() {
         document.getElementById("appointmentModal").style.display = "block";
@@ -360,6 +439,11 @@
       // Close the modal
       function closeModal() {
         document.getElementById("appointmentModal").style.display = "none";
+      }
+
+      // Close the modal
+      function closePaymentModal() {
+        document.getElementById("paymentModal").style.display = "none";
       }
     </script>
   </body>

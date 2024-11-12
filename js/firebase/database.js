@@ -1,10 +1,21 @@
+// Import necessary functions from Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  runTransaction,
+  onSnapshot,
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; // Add orderBy
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDp7z9WDnT2w2aSmS4cmZ4WrEKkRlVYQOc",
   authDomain: "rpetstation-2688f.firebaseapp.com",
@@ -17,6 +28,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
-export { app, analytics };
+// Export the app, db, and necessary Firestore functions
+export {
+  app,
+  db,
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  runTransaction,
+  onSnapshot,
+};

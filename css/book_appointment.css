@@ -14,7 +14,7 @@
 
 /* Modal content */
 .modal-content {
-  background-color: #f3c623; /* Yellow background */
+  background-color: #f3c623; 
   margin: 10% auto;
   margin-top: 5%;
   padding: 20px;
@@ -43,15 +43,16 @@ h2 {
   margin-bottom: 30px;
 }
 
-.appointment-form {
+.appointment-form, .payment-form {
   display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
 .appointment {
-    margin-top: 140px;
+  margin-top: 140px;
 }
+
 .form-section {
   width: 48%;
   margin: 50px;
@@ -168,9 +169,26 @@ textarea {
 
 /* Focus effect for the select box */
 .custom-select:focus {
-  border-color: #4CAF50; /* Green border on focus */
+  border-color: #4caf50; /* Green border on focus */
   background-color: #e7f5e7;
   outline: none;
+}
+
+/* Style for the select element */
+select#paymentMethod {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  margin-top: 5px;
+  appearance: none; /* Remove default arrow for customization */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='grey' d='M7 10l5 5 5-5z'/></svg>"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
 }
 
 /* Responsive Styles */

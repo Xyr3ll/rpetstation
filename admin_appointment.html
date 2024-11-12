@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+
+    <title>Appointments</title>
+    <link rel="stylesheet" href="/css/admin_appointments.css" />
+    <link rel="stylesheet" href="/css/admin_employee.css" />
+    <link rel="stylesheet" href="/css/admin_admin.css" />
+    <link rel="stylesheet" href="/css/sidebarheader.css" />
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <!--Header-->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+          <span class="header-title">APPOINTMENTS</span>
+        </div>
+      </header>
+      <!--End Header-->
+
+      <!--Sidebar-->
+      <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <img class="logo" src="/images/RPetStationBrand.png" alt="" />
+          </div>
+          <span
+            class="material-icons-outlined"
+            id="close"
+            onclick="closeSidebar()"
+          >
+            close
+          </span>
+        </div>
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="admin_appointment.html">
+              <span class="label">Appointments</span>
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="admin_employee.html">
+              <span class="label">Employee</span>
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="admin_admin.html">
+              <span class="label">Admin</span>
+            </a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="reports.html">
+              <span class="label">Log-out</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!--End Sidebar-->
+
+      <main class="main-container">
+        <div class="select-container">
+          <input
+            type="text"
+            id="searchBar"
+            class="search-bar"
+            placeholder="Search appointments..."
+          />
+        </div>
+        <div class="appointment-list">
+          <div class="appointment-item">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Appointment ID</th>
+                    <th>Customer Email</th>
+                    <th>Customer Name</th>
+                    <th>Phone Number</th>
+                    <th>Pet Type</th>
+                    <th>Total Price</th>
+                    <th>Selected Service</th>
+                    <th>Selected Size</th>
+                    <th>Service Type</th>
+                    <th>Booking Date</th>
+                    <th>Schedule Date & Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="appointmentTableBody">
+                  <!-- Data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script
+      type="module"
+      src="/js/admin_appointment/admin_appointment.js"
+    ></script>
+  </body>
+</html>

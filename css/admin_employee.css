@@ -1,0 +1,81 @@
+.main-container {
+  grid-area: main;
+  overflow-y: auto;
+  padding: 20px 20px;
+  animation: slideIn 1s ease forwards;
+  background-color: #967a18;
+}
+.header-title {
+  font-size: 29px;
+}
+/* appointment List */
+.table {
+  margin-top: 40px;
+  width: 100%;
+  border-collapse: separate;
+  font-size: 0.8em;
+  border-radius: 5px 5px 0 0;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+.table thead th {
+  color: black;
+}
+
+.table tbody td {
+  font-size: 15px;
+  padding: 15px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+.table tbody tr {
+  background-color: #ffffffea;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.7s ease, box-shadow 0.3s ease;
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 2px solid #dddddd;
+}
+
+/* Combo box */
+.select-container {
+  display: flex;
+  justify-content: left;
+  position: relative;
+  margin-top: 40px;
+  margin-left: 12px;
+  min-width: 250px;
+  height: 40px;
+}
+
+/* Status select */
+.status-select {
+  margin: 10px;
+  padding: 20px 0 20px 10px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: none;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(61, 60, 60);
+  box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+  z-index: 0;
+}
+.add-product-btn {
+  background-color: rgb(61, 60, 60);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.add-product-btn .material-icons-outlined {
+  margin-right: 8px;
+}
