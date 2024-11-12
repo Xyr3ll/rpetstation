@@ -1,0 +1,46 @@
+/* Centered Footer */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center; /* Center the text */
+  }
+  
+  .footer-bottom {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center;     /* Center content vertically */
+    flex-wrap: wrap;         /* Allow wrapping if the content overflows */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-social a {
+    font-size: 1.2rem;
+  }
+  
+  .footer-bottom {
+
+    font-size: 1rem;
+  }
+  
+  /* Mobile Responsiveness */
+  @media screen and (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-links, .footer-social {
+      margin-top: 10px;
+    }
+  
+    .footer-links a, .footer-social a {
+      margin: 5px 0;
+    }
+  }
+  

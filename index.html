@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/book_appointment.css" />
     <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/payment.css" />
-
     <link rel="stylesheet" href="css/view_services.css" />
+    <link rel="stylesheet" href="css/footer.css" />
   </head>
   <body>
     <header>
@@ -20,7 +19,6 @@
       <nav>
         <a href="#home">Home</a>
         <a href="#about">About</a>
-        <a href="#feedbacks">Feedbacks</a>
         <a href="#login" onclick="openLoginModal()">Login</a>
       </nav>
     </header>
@@ -46,25 +44,20 @@
         <div class="container-about">
           <h2>About R'pet Station</h2>
           <p>
-            R'pet Station is dedicated to providing top-notch care for your
-            pets, offering a variety of services from grooming to veterinary
-            care. Our team of professional veterinarians and pet care
-            specialists are committed to ensuring the health and happiness of
-            your beloved companions. Trust us to give your pets the quality care
-            they deserve.
+            Welcome to our innovative web-based appointment system designed for
+            R'Pet Station. Our platform seamlessly integrates QR code and SMS
+            technology to provide a convenient and efficient way for pet owners
+            to book appointments for their furry friends.
           </p>
-        </div>
-      </section>
-
-      <!-- Feedbacks Section -->
-      <section id="feedbacks" class="feedbacks">
-        <div class="container">
-          <h2>What Our Clients Say</h2>
+          <br />
           <p>
-            "R'pet Station has been amazing for my dog. Their grooming services
-            are top-notch and the staff is incredibly caring."
+            With just a few clicks, users can schedule their appointments
+            online, receive real-time reminders via SMS, and easily access their
+            booking details through a personalized QR code. Whether you're
+            scheduling a routine checkup, grooming, or other pet services, our
+            system simplifies the process, saving you time and ensuring a smooth
+            experience.
           </p>
-          <!-- Add more feedbacks as needed -->
         </div>
       </section>
 
@@ -134,30 +127,14 @@
                 <label for="veterinary">Veterinary</label>
 
                 <!-- Grooming Combo Boxes (initially hidden) -->
+                <!-- Grooming Combo Boxes (initially hidden) -->
                 <div id="grooming-options" style="display: none">
                   <div class="grooming-option-container">
                     <label for="groomingService" class="form-label"
                       >Select Grooming Service:</label
                     >
                     <select id="groomingService" class="custom-select">
-                      <option value="fullgroom-short">
-                        Full Groom for Shorthair (Ear Cleaning, Nail Clipping,
-                        Bath Only)
-                      </option>
-                      <option value="fullgroom-long">
-                        Full Groom for Long Hair (Ear Cleaning, Nail Clipping,
-                        Bath Only)
-                      </option>
-                      <option value="sanitary-trim">
-                        Sanitary or Trim Cut / Skinhead
-                      </option>
-                      <option value="semi-puppy">
-                        Semi Puppy Cut / Lion Cut
-                      </option>
-                      <option value="puppy-poole">
-                        Puppy Cut / Poodle Cut
-                      </option>
-                      <option value="haircut-only">Haircut Only</option>
+                      <!-- Dynamic grooming services will be inserted here -->
                     </select>
                   </div>
 
@@ -166,26 +143,18 @@
                       >Select Size Category:</label
                     >
                     <select id="size" class="custom-select">
-                      <option value="s">Small (8kg Below)</option>
-                      <option value="m">Medium (9-16kg)</option>
-                      <option value="l">Large (17-24kg)</option>
-                      <option value="xl">XL (25-32kg)</option>
-                      <option value="xxl">XXL (33kg Above)</option>
+                      <!-- Dynamic size categories will be inserted here -->
                     </select>
                   </div>
                 </div>
+
                 <!-- Veterinary Combo Box (initially hidden) -->
                 <div id="veterinary-options" style="display: none">
                   <label for="veterinaryService"
                     >Select Veterinary Service:</label
                   >
                   <select id="veterinaryService" class="custom-select">
-                    <option value="5in1">5in1 - ₱420</option>
-                    <option value="6in1">6in1 - ₱600</option>
-                    <option value="8in1">8in1 - ₱750</option>
-                    <option value="anti-rabies">Anti Rabies - ₱300</option>
-                    <option value="kennel-cough">Kennel Cough - ₱550</option>
-                    <option value="4in1">4in1 - ₱850</option>
+                    <!-- Dynamic veterinary services will be inserted here -->
                   </select>
                 </div>
               </div>
@@ -295,6 +264,7 @@
                 name="proofOfPayment"
                 accept="image/*"
                 required
+                onchange="validateImageFile()"
               />
             </div>
 
@@ -322,7 +292,9 @@
               </select>
 
               <div class="form-actions">
-                <button type="submit" class="confirm">Submit</button>
+                <button type="submit" class="confirm" id="confirmPayment">
+                  Submit
+                </button>
                 <button
                   type="button"
                   class="cancel"
@@ -377,7 +349,7 @@
       <div id="loginModal" class="modal-login">
         <div class="modal-content-login">
           <h1>Login</h1>
-          <form class="login-form">
+          <form class="login-form" id="login-form">
             <label for="username">Username</label>
             <input
               type="text"
@@ -407,13 +379,25 @@
       </div>
     </main>
 
+    <footer>
+      <div class="footer-bottom">
+        <p>
+          835 M. Naval St. Sipac-Almacen, Navotas, Philippines<br />
+          r'petstation@gmail.com,<br />
+          0950 491 5646
+        </p>
+      </div>
+    </footer>
+
     <script type="module" src="../js/appointment/book_appointment.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/payment.js"></script>
+    <script type="module" src="js/admin/login.js"></script>
+    <script type="module" src="js/admin/addAdminAccount.js"></script>
+
+    <script src="js/payment/payment.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
-       // Function to open the services modal
-       function openServicesModal() {
+      // Function to open the services modal
+      function openServicesModal() {
         const modal = document.getElementById("servicesModal");
         modal.style.display = "block";
         setTimeout(() => {
@@ -444,6 +428,15 @@
       // Close the modal
       function closePaymentModal() {
         document.getElementById("paymentModal").style.display = "none";
+      }
+
+      // Log in modal
+      function openLoginModal() {
+        document.getElementById("loginModal").style.display = "block";
+      }
+
+      function closeLoginModal() {
+        document.getElementById("loginModal").style.display = "none";
       }
     </script>
   </body>

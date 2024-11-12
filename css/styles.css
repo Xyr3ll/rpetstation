@@ -238,3 +238,181 @@ nav a:hover {
     line-height: 1.6;
     margin-bottom: 15px;
 }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+    header {
+        padding: 10px 30px;
+    }
+
+    header .logo img {
+        width: 170px;
+    }
+
+    nav {
+        gap: 20px;
+        padding-right: 20px;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        padding: 50px;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .hero .buttons button {
+        font-size: 1rem;
+        padding: 12px 22px;
+    }
+
+    .hero-image img {
+        width: 100%;
+    }
+
+    .container-about,
+    .container {
+        padding: 40px 20px;
+    }
+
+    .about h2,
+    .feedbacks h2 {
+        font-size: 2rem;
+    }
+
+    .about p,
+    .feedbacks p {
+        font-size: 1rem;
+    }
+
+    .appointment-form{
+        width: 700px;
+        flex-direction: column;
+    }
+    .modal-content-services.show{
+        padding-top: 200px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    header .logo img {
+        width: 150px;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero {
+        padding: 50px 20px;
+    }
+
+    .hero-container {
+        padding: 40px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero .buttons button {
+        font-size: 1rem;
+        padding: 12px 22px;
+    }
+
+    .hero-image img {
+        width: 100%;
+    }
+
+    .container-about,
+    .container {
+        padding: 30px 20px;
+    }
+
+    .about h2,
+    .feedbacks h2 {
+        font-size: 1.8rem;
+    }
+
+    .about p,
+    .feedbacks p {
+        font-size: 1rem;
+    }
+    .appointment-form{
+        width: 600px;
+        flex-direction: column;
+    }
+    .modal-content-services.show{
+        padding-top: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    header .logo img {
+        width: 120px;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero {
+        padding: 40px 10px;
+        padding-top: 200px;
+    }
+
+    .hero-container {
+        padding: 30px 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero .buttons button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    .hero-image img {
+        width: 100%;
+    }
+
+    .container-about,
+    .container {
+        padding: 20px;
+        padding-top: 60px;
+    }
+    .appointment-form{
+        width: 600px;
+        flex-direction: column;
+    }
+    .modal-content-services.show{
+        padding-top: 200px;
+    }
+    .about h2,
+    .feedbacks h2 {
+        font-size: 1.6rem;
+    }
+
+    .about p,
+    .feedbacks p {
+        font-size: 0.9rem;
+    }
+}

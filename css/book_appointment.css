@@ -176,7 +176,7 @@ textarea {
 
 /* Style for the select element */
 select#paymentMethod {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   font-size: 1em;
   border: 1px solid #ccc;
@@ -195,12 +195,13 @@ select#paymentMethod {
 @media (max-width: 768px) {
   /* On tablet and mobile screens */
   .modal-content {
-    width: 95%; /* Slightly narrower for mobile */
+    width: 100%; 
     margin: 10% auto;
   }
 
   .appointment-form {
     flex-direction: column; /* Stack form fields vertically */
+    max-width: 100%;
   }
 
   .form-section {

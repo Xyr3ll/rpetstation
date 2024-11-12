@@ -5,6 +5,7 @@
   animation: slideIn 1s ease forwards;
   background-color: #967a18;
 }
+
 .header-title {
   font-size: 29px;
 }
@@ -41,6 +42,17 @@
   border-bottom: 2px solid #dddddd;
 }
 
+/* Combo box */
+.select-container {
+  display: flex;
+  justify-content: left;
+  position: relative;
+  margin-top: 40px;
+  margin-left: 12px;
+  min-width: 250px;
+  height: 40px;
+}
+
 /* Inventory Header */
 .inventory-header {
   display: flex;
@@ -50,7 +62,7 @@
   color: black;
 }
 
-.add-product-btn {
+.add-services-btn {
   background-color: #f3c623;
   color: black;
   border: none;
@@ -62,20 +74,19 @@
   font-size: 14px;
 }
 
-.add-product-btn .material-icons-outlined {
+.add-services-btn .material-icons-outlined {
   margin-right: 8px;
 }
 
-/* Modal for adding employee */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.4);
   overflow: auto;
 }
 
@@ -89,9 +100,11 @@
   border-radius: 8px;
 }
 
-/* Form inputs */
-#addEmployeeForm input, #editEmployeeForm input {
-  width: 70%;
+#addGroomForm input, 
+#editGroomForm input,
+#addVeterinaryForm input,
+#editVeterinaryForm input {
+  width: 95%;
   padding: 10px 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -100,29 +113,55 @@
 }
 
 /* Button */
-#addEmployeeForm button, #editEmployeeForm button{
+#addGroomModal button,
+#editGroomModal button,
+#addVeterinaryModal button,
+#editVeterinaryModal button {
   padding: 10px 15px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  display: block;  /* Make the button block-level */
+  display: block; /* Make the button block-level */
   margin: 0 auto;
 }
 
-#addEmployeeForm button:hover {
-  background-color: #45a049;
+/* Align label and input in a row */
+.size-input {
+  display: flex;
+  align-items: center; 
+  margin-bottom: 10px;
 }
 
-.edit-button,
-.delete-button {
+/* Style for the label */
+.size-input label {
+  width: 100px; /* Adjust the width of the label */
+  margin-right: 10px; /* Add space between label and input */
+}
+
+/* Style for the input */
+.size-input input {
+  width: 150px; /* Set a fixed width for the input */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  letter-spacing: 1px;
+}
+
+/* Optional: To make the labels bold */
+.size-input label {
+  font-weight: bold;
+}
+
+.edit-btn,
+.delete-btn {
   border: none;
   cursor: pointer;
   background-color: transparent;
 }
 
-.edit-button img,
-.delete-button img {
+.edit-btn img,
+.delete-btn img {
   width: 20px;
 }

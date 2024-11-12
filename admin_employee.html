@@ -64,8 +64,8 @@
             </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="admin_admin.html">
-              <span class="label">Admin</span>
+            <a href="admin_services.html">
+              <span class="label">Services</span>
             </a>
           </li>
           <li class="sidebar-list-item">
@@ -78,13 +78,11 @@
       <!--End Sidebar-->
 
       <main class="main-container">
-        <div class="select-container">
-          <input
-            type="text"
-            id="searchBar"
-            class="search-bar"
-            placeholder="Search employees..."
-          />
+        <div class="inventory-header">
+          <button class="add-product-btn">
+            <span class="material-icons-outlined">add_circle_outline</span>
+            Add Employee
+          </button>
         </div>
         <div class="employee-list">
           <div class="employee-item">
@@ -92,12 +90,8 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Employee ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Address</th>
-                    <th>Contact number</th>
-                    <th>Birthday</th>
+                    <th>Employee Username</th>
+                    <th>Employee Password</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -108,11 +102,59 @@
             </div>
           </div>
         </div>
+
+        <!-- Modal for Adding Employee -->
+        <div id="addEmployeeModal" class="modal">
+          <div class="modal-content">
+            <h2>Add New Employee</h2>
+            <form id="addEmployeeForm">
+              <label for="employeeUsername">Username:</label>
+              <input
+                type="text"
+                id="employeeUsername"
+                name="employeeUsername"
+                required
+              />
+
+              <label for="employeePassword">Password:</label>
+              <input
+                type="password"
+                id="employeePassword"
+                name="employeePassword"
+                required
+              />
+              <button type="submit">Add Employee</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal for Edit Employee -->
+        <div id="editEmployeeModal" class="modal">
+          <div class="modal-content">
+            <h2>Edit Employee</h2>
+            <form id="editEmployeeForm">
+              <label for="editEmployeeUsername">Username:</label>
+              <input
+                type="text"
+                id="editEmployeeUsername"
+                name="employeeUsername"
+                required
+              />
+
+              <label for="editEmployeePassword">Password:</label>
+              <input
+                type="password"
+                id="editEmployeePassword"
+                name="employeePassword"
+                required
+              />
+              <button type="submit">Save Changes</button>
+            </form>
+          </div>
+        </div>
       </main>
     </div>
-    <script
-      type="module"
-      src="/js/admin_appointment/admin_appointment.js"
-    ></script>
+
+    <script type="module" src="../js/admin_employee/admin_employee.js"></script>
   </body>
 </html>
