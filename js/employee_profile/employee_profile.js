@@ -128,25 +128,19 @@ async function fetchUserProfile(username) {
   }
 }
 
-// Close the modal
-function closeEditModal() {
-  document.getElementById("editModal").style.display = "none";
-}
-
 // Save updated profile data back to Firebase
 async function saveProfile() {
   // Get input values from the form
   const updatedData = {
     name: document.getElementById("editName").value,
     username: document.getElementById("editUsername").value,
-    password: document.getElementById("editPassword").value, // Consider password security
+    password: document.getElementById("editPassword").value, 
     address: document.getElementById("editAddress").value,
     email: document.getElementById("editEmail").value,
   };
 
   try {
-    const userId = "user-id"; // Replace with logged-in user's ID or Firebase UID
-    const docRef = doc(db, "employees", userId);
+    const docRef = doc(db, "employees");
 
     // Update Firebase with the new data
     await updateDoc(docRef, updatedData);

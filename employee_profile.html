@@ -41,21 +41,27 @@
           <div class="sidebar-brand">
             <img class="logo" src="/images/RPetStationBrand.png" alt="" />
           </div>
-          <span class="material-icons-outlined" id="close" onclick="closeSidebar()">close</span>
+          <span
+            class="material-icons-outlined"
+            id="close"
+            onclick="closeSidebar()"
+            >close</span
+          >
         </div>
         <ul class="sidebar-list">
-          <li class="sidebar-list-item"><a href="employee_profile.html">Profile</a></li>
-          <li class="sidebar-list-item"><a href="employee_appointment.html">Appointments</a></li>
+          <li class="sidebar-list-item">
+            <a href="employee_profile.html">Profile</a>
+          </li>
+          <li class="sidebar-list-item">
+            <a href="employee_appointment.html">Appointments</a>
+          </li>
           <li class="sidebar-list-item"><a href="index.html">Log-out</a></li>
         </ul>
       </aside>
       <!--End Sidebar-->
 
       <!-- Main Content -->
-      <main class="main-container-profile" id="profile-container">
-        <span class="edit-icon" onclick="openEditModal()">
-        </span>
-      </main>
+      <main class="main-container-profile" id="profile-container"></main>
 
       <!-- Edit Profile Modal -->
       <div class="modal" id="editModal">
@@ -85,11 +91,17 @@
     </div>
 
     <!-- JavaScript -->
-    <script type="module" src="/js/employee_profile/employee_profile.js"></script>
+    <script
+      type="module"
+      src="/js/employee_profile/employee_profile.js"
+    ></script>
     <script src="/js/sidebarheader.js"></script>
-    
+
     <script>
-    
+      // Close the modal
+      function closeEditModal() {
+        document.getElementById("editModal").style.display = "none";
+      }
     </script>
   </body>
 </html>
