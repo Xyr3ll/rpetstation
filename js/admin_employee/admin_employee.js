@@ -30,10 +30,13 @@ window.onclick = function (event) {
 document.getElementById('addEmployeeForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
+  const name = document.getElementById('employeeName').value;
   const username = document.getElementById('employeeUsername').value;
   const password = document.getElementById('employeePassword').value;
+  const email = document.getElementById('employeeEmail').value;
+  const address = document.getElementById('employeeAddress').value;
 
-  if (!username || !password) {
+  if (!name || !username || !password || !email || !address) {
     alert('Please fill in both username and password');
     return;
   }
@@ -41,8 +44,11 @@ document.getElementById('addEmployeeForm').addEventListener('submit', async func
   try {
     // Add a new document with a generated ID to the 'employees' collection
     const docRef = await addDoc(collection(db, 'employees'), {
+      name: name,
       username: username,
       password: password,
+      email: email,
+      address: address,
     });
 
     console.log('Employee added with ID: ', docRef.id);
@@ -79,7 +85,11 @@ async function fetchEmployees() {
       const data = doc.data();
       const row = document.createElement("tr");
 
-      // Create and append cells for each employee's username and password
+      // Create and append cells for each 
+      const nameCell = document.createElement("td");
+      nameCell.textContent = data.name;
+      row.appendChild(nameCell);
+
       const usernameCell = document.createElement("td");
       usernameCell.textContent = data.username;
       row.appendChild(usernameCell);
@@ -87,6 +97,16 @@ async function fetchEmployees() {
       const passwordCell = document.createElement("td");
       passwordCell.textContent = data.password;
       row.appendChild(passwordCell);
+
+      
+      const addressCell = document.createElement("td");
+      addressCell.textContent = data.address;
+      row.appendChild(addressCell);
+
+      
+      const emailCell = document.createElement("td");
+      emailCell.textContent = data.email;
+      row.appendChild(emailCell);
 
       // Add action buttons or edit/remove options
       const actionCell = document.createElement("td");
@@ -108,7 +128,7 @@ async function fetchEmployees() {
       editImg.alt = "Edit";
       editButton.appendChild(editImg);
       editButton.classList.add("edit-button");
-      editButton.onclick = () => editEmployee(doc.id, data.username, data.password); // Handle edit employee
+      editButton.onclick = () => editEmployee(doc.id, data.name, data.username, data.password, data.address, data.email);
       actionCell.appendChild(editButton);
 
       row.appendChild(actionCell);
@@ -136,29 +156,39 @@ async function deleteEmployee(employeeId) {
 }
 
 // Function to edit employee details
-function editEmployee(employeeId, currentUsername, currentPassword) {
+function editEmployee(employeeId, currentName, currentUsername, currentPassword, currentAddress, currentEmail) {
   // Populate the modal form with current employee data
+  document.getElementById("editEmployeeName").value = currentName;
   document.getElementById("editEmployeeUsername").value = currentUsername;
   document.getElementById("editEmployeePassword").value = currentPassword;
+  document.getElementById("editEmployeeAddress").value = currentAddress;
+  document.getElementById("editEmployeeEmail").value = currentEmail;
+
   
   // Change the form's submit handler to update the employee instead of adding a new one
   const form = document.getElementById('editEmployeeForm');
   form.onsubmit = async function (e) {
     e.preventDefault();
 
+    const name = document.getElementById('editEmployeeName').value;
     const username = document.getElementById('editEmployeeUsername').value;
     const password = document.getElementById('editEmployeePassword').value;
+    const address = document.getElementById('editEmployeeAddress').value;
+    const email = document.getElementById('editEmployeeEmail').value;
 
-    if (!username || !password) {
-      alert('Please fill in both username and password');
+    if (!name || !username || !password || !email || !address) {
+      alert('Please fill all the fields');
       return;
     }
 
     try {
       // Update the employee document with the new data
       await updateDoc(doc(db, "employees", employeeId), {
+        name: name,
         username: username,
         password: password,
+        address: address,
+        email: email,
       });
 
       console.log('Employee updated with ID: ', employeeId);

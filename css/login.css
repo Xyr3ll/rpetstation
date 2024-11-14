@@ -9,6 +9,7 @@
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
+
 }
 
 .modal-content-login {
@@ -19,6 +20,7 @@
   width: 80%;
   max-width: 500px;
   border-radius: 10px;
+  animation: slideInFromTop 0.3s ease-out;
 }
 
 .close {
@@ -54,12 +56,15 @@ textarea {
   width: 100%;
   padding: 18px 0;
   border: none;
-  border-bottom: 1px solid #333; /* Darker border color */
+  border-bottom: 1px solid #333;
+  /* Darker border color */
   background-color: transparent;
   outline: none;
-  color: #333; /* Text color */
+  color: #333;
+  /* Text color */
   font-size: 16px;
 }
+
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -83,4 +88,16 @@ textarea {
 .cancel {
   background-color: #ccc;
   color: black;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

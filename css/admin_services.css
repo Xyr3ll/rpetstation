@@ -1,19 +1,37 @@
+/* Main Container */
 .main-container {
   grid-area: main;
   overflow-y: auto;
-  padding: 20px 20px;
+  padding: 20px;
   animation: slideIn 1s ease forwards;
   background-color: #967a18;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Header Title */
 .header-title {
   font-size: 29px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* appointment List */
+#servicesTitle {
+  margin: auto;
+  margin-right: 10px;
+  color: #333;
+  font-size: 1.5em;
+  /* Larger font size for visibility on desktop */
+  font-weight: bold;
+  text-align: center;
+}
+
+/* services List */
 .table {
-  margin-top: 40px;
-  width: 100%;
+  margin: 40px auto;
+  /* Centers horizontally */
+  width: 50%;
   border-collapse: separate;
   font-size: 0.8em;
   border-radius: 5px 5px 0 0;
@@ -22,38 +40,58 @@
 }
 
 .table thead th {
-  color: black;
+  color: #333;
+  padding: 15px;
+  background-color: #dddddd;
+  font-weight: bold;
+  border-top: 2px solid #b8b8b8;
 }
 
 .table tbody td {
   font-size: 15px;
   padding: 15px;
-  color: rgb(0, 0, 0);
+  color: #333;
   text-align: center;
 }
 
 .table tbody tr {
   background-color: #ffffffea;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.7s ease, box-shadow 0.3s ease;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .table tbody tr:last-of-type {
   border-bottom: 2px solid #dddddd;
 }
 
-/* Combo box */
+/* search box */
 .select-container {
   display: flex;
   justify-content: left;
   position: relative;
   margin-top: 40px;
-  margin-left: 12px;
-  min-width: 250px;
   height: 40px;
+  padding: 5px 15px;
+  background-color: #f3f3f3;
+  /* Light background color */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+  transition: box-shadow 0.3s ease;
 }
 
-/* Inventory Header */
+.select-container input {
+  background-color: #f3f3f3;
+  border: #f0f0f0;
+}
+
+/* services Header */
 .inventory-header {
   display: flex;
   justify-content: end;
@@ -63,8 +101,8 @@
 }
 
 .add-services-btn {
-  background-color: #f3c623;
-  color: black;
+  background-color: #004a99;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -92,15 +130,17 @@
 
 /* Modal content */
 .modal-content {
-  background-color: white;
+  background-color: #f3c623;
+  color: #333;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 30%;
   border-radius: 8px;
+  animation: slideInFromright 0.3s ease-out;
 }
 
-#addGroomForm input, 
+#addGroomForm input,
 #editGroomForm input,
 #addVeterinaryForm input,
 #editVeterinaryForm input {
@@ -118,31 +158,35 @@
 #addVeterinaryModal button,
 #editVeterinaryModal button {
   padding: 10px 15px;
-  background-color: #4caf50;
+  background-color: #004a99;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  display: block; /* Make the button block-level */
+  display: block;
+  /* Make the button block-level */
   margin: 0 auto;
 }
 
 /* Align label and input in a row */
 .size-input {
   display: flex;
-  align-items: center; 
+  align-items: center;
   margin-bottom: 10px;
 }
 
 /* Style for the label */
 .size-input label {
-  width: 100px; /* Adjust the width of the label */
-  margin-right: 10px; /* Add space between label and input */
+  width: 100px;
+  /* Adjust the width of the label */
+  margin-right: 10px;
+  /* Add space between label and input */
 }
 
 /* Style for the input */
 .size-input input {
-  width: 150px; /* Set a fixed width for the input */
+  width: 150px;
+  /* Set a fixed width for the input */
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -164,4 +208,47 @@
 .edit-btn img,
 .delete-btn img {
   width: 20px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .select-container {
+    margin-top: 15px;
+    height: 35px;
+    /* Slightly smaller height */
+    padding: 5px 10px;
+    /* Reduce padding */
+    box-shadow: none;
+    /* Simplify shadow on mobile for a cleaner look */
+    width: 90%;
+    /* Keep the search box almost full-width */
+    margin-left: auto;
+    /* Center the box horizontally */
+    margin-right: auto;
+  }
+
+  .select-container input {
+    font-size: 0.9em;
+    /* Slightly smaller text for mobile */
+    padding: 5px;
+    /* Reduce padding for smaller screens */
+  }
+
+  #servicesTitle {
+    font-size: 0.6em;
+    /* Slightly smaller font size on mobile */
+    margin-left: 1px;
+  }
+}
+
+@keyframes slideInFromright {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

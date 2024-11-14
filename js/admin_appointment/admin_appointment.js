@@ -34,24 +34,6 @@ function filterAppointments() {
 
 document.getElementById("searchBar").addEventListener("input", filterAppointments); 
 
-// Function to map selectedSize to human-readable text
-function getSizeText(size) {
-  switch (size) {
-    case "s":
-      return "Small";
-    case "m":
-      return "Medium";
-    case "l":
-      return "Large";
-    case "xl":
-      return "XL";
-    case "xxl":
-      return "XXL";
-    default:
-      return "Unknown";
-  }
-}
-
 // Function to update the appointment status
 async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
   try {
@@ -93,7 +75,7 @@ function fetchAppointments() {
         const row = document.createElement("tr");
 
         // Get the proofOfPaymentURL field
-        const proofOfPaymentURL = data.proofOfPaymentURL;
+        const proofOfPaymentURL = data.paymentProof;
 
         row.innerHTML = `
           <tr data-id="${doc.id}">
@@ -104,7 +86,7 @@ function fetchAppointments() {
             <td>${data.petType}</td>
             <td>${data.price}</td>
             <td>${data.selectedService}</td>
-            <td>${getSizeText(data.selectedSize)}</td>
+            <td>${data.selectedSize}</td>
             <td>${data.serviceType}</td>
             <td>${new Date(data.timestamp.seconds * 1000).toLocaleString(
               "en-GB",

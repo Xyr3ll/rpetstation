@@ -14,7 +14,8 @@ import {
   runTransaction,
   onSnapshot,
   deleteDoc,
-  serverTimestamp
+  serverTimestamp,
+  where
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   getStorage,
@@ -63,5 +64,6 @@ export {
   uploadBytesResumable,
   getFirestore,
   deleteDoc,
-  serverTimestamp 
+  serverTimestamp,
+  where
 };

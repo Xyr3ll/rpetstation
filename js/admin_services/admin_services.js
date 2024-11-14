@@ -6,38 +6,45 @@ import {
   onSnapshot,
   getDoc,
   doc,
+  deleteDoc,
   updateDoc,
 } from "../firebase/database.js";
 
 // Search function for filtering appointments in both tables
 function filterAppointments() {
-    const searchTerm = document.getElementById("searchBar").value.toLowerCase();
-  
-    // Get all rows from both grooming and veterinary tables
-    const groomingRows = document.querySelectorAll("#groomingTableBody tr");
-    const veterinaryRows = document.querySelectorAll("#veterinaryTableBody tr");
-  
-    // Combine rows from both tables into one array
-    const allRows = [...groomingRows, ...veterinaryRows];
-  
-    // Loop through each row in both tables and filter based on the search term
-    allRows.forEach((row) => {
-      const customerName = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
-      const appointmentID = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
-      const customerEmail = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
-  
-      // Show row if any column matches the search term, otherwise hide it
-      if (
-        customerName.includes(searchTerm) ||
-        appointmentID.includes(searchTerm) ||
-        customerEmail.includes(searchTerm)
-      ) {
-        row.style.display = ""; // Show row if it matches the search term
-      } else {
-        row.style.display = "none"; // Hide row if it doesn't match
-      }
-    });
-  }
+  const searchTerm = document.getElementById("searchBar").value.toLowerCase();
+
+  // Get all rows from both grooming and veterinary tables
+  const groomingRows = document.querySelectorAll("#groomingTableBody tr");
+  const veterinaryRows = document.querySelectorAll("#veterinaryTableBody tr");
+
+  // Combine rows from both tables into one array
+  const allRows = [...groomingRows, ...veterinaryRows];
+
+  // Loop through each row in both tables and filter based on the search term
+  allRows.forEach((row) => {
+    const customerName = row
+      .querySelector("td:nth-child(3)")
+      .textContent.toLowerCase();
+    const appointmentID = row
+      .querySelector("td:nth-child(1)")
+      .textContent.toLowerCase();
+    const customerEmail = row
+      .querySelector("td:nth-child(2)")
+      .textContent.toLowerCase();
+
+    // Show row if any column matches the search term, otherwise hide it
+    if (
+      customerName.includes(searchTerm) ||
+      appointmentID.includes(searchTerm) ||
+      customerEmail.includes(searchTerm)
+    ) {
+      row.style.display = ""; // Show row if it matches the search term
+    } else {
+      row.style.display = "none"; // Hide row if it doesn't match
+    }
+  });
+}
 
 document
   .getElementById("searchBar")
@@ -353,6 +360,17 @@ function fetchGroom() {
 
       // Display the grooming table once data is fetched
       document.getElementById("groomingTable").style.display = "block";
+
+      // Add event listeners for all delete buttons
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const serviceId = event.target
+            .closest("button")
+            .getAttribute("data-id");
+          deleteGroomService(serviceId); // Call the deleteService function
+        });
+      });
     },
     (error) => {
       console.error("Error fetching real-time updates: ", error);
@@ -400,6 +418,17 @@ function fetchVeterinary() {
 
       // Display the veterinary table once data is fetched
       document.getElementById("veterinaryTable").style.display = "block";
+
+      // Add event listeners for all delete buttons
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const serviceId = event.target
+            .closest("button")
+            .getAttribute("data-id");
+          deleteVeterinaryService(serviceId); // Call the deleteService function
+        });
+      });
     },
     (error) => {
       console.error("Error fetching real-time updates: ", error);
@@ -493,3 +522,37 @@ document.addEventListener("click", function (event) {
     }
   }
 });
+
+// Delete function for groom
+function deleteGroomService(serviceId) {
+  const serviceRef = doc(db, "services", "grooming", "servicesList", serviceId);
+
+  // Delete the service from the Firestore collection
+  deleteDoc(serviceRef)
+    .then(() => {
+      console.log("Service successfully deleted!");
+    })
+    .catch((error) => {
+      console.error("Error deleting service: ", error);
+    });
+}
+
+// Delete function for veterinary
+function deleteVeterinaryService(serviceId) {
+  const serviceRef = doc(
+    db,
+    "services",
+    "veterinary",
+    "servicesList",
+    serviceId
+  );
+
+  // Delete the service from the Firestore collection
+  deleteDoc(serviceRef)
+    .then(() => {
+      console.log("Service successfully deleted!");
+    })
+    .catch((error) => {
+      console.error("Error deleting service: ", error);
+    });
+}

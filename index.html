@@ -127,7 +127,6 @@
                 <label for="veterinary">Veterinary</label>
 
                 <!-- Grooming Combo Boxes (initially hidden) -->
-                <!-- Grooming Combo Boxes (initially hidden) -->
                 <div id="grooming-options" style="display: none">
                   <div class="grooming-option-container">
                     <label for="groomingService" class="form-label"
@@ -166,12 +165,16 @@
                 id="schedule-date"
                 name="schedule-date"
                 required
+                onkeydown="return false"
+
               />
               <input
                 type="time"
                 id="schedule-time"
                 name="schedule-time"
                 required
+                onkeydown="return false"
+
               />
             </div>
 
@@ -183,16 +186,18 @@
                 type="text"
                 id="ownerName"
                 name="ownerName"
-                placeholder="Kurt D. Carreon"
+                placeholder="Please enter your name"
                 required
               />
 
               <label for="contactNumber">Contact Number</label>
               <input
-                type="text"
+                type="tel"
                 id="contactNumber"
                 name="contactNumber"
-                placeholder="09xxxxxxxx"
+                pattern="[0-9]+"
+              placeholder="Please enter your valid mobile number"
+                title="Please enter a valid contact number."
                 required
               />
 
@@ -201,7 +206,7 @@
                 type="email"
                 id="email"
                 name="email"
-                placeholder="kurtcarreon2@gmail.com"
+                placeholder="Please enter your email"
                 required
               />
 
@@ -350,6 +355,12 @@
         <div class="modal-content-login">
           <h1>Login</h1>
           <form class="login-form" id="login-form">
+            <label for="userType">User Type:</label>
+            <select id="userType" name="userType" required>
+              <option value="admin">Admin</option>
+              <option value="employee">Employee</option>
+            </select>
+
             <label for="username">Username</label>
             <input
               type="text"
@@ -396,6 +407,37 @@
     <script src="js/payment/payment.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
+
+      function resetForm() {
+        // Reset text inputs
+        document.getElementById("ownerName").value = "";
+        document.getElementById("contactNumber").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("breed").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("schedule-date").value = "";
+        document.getElementById("schedule-time").value = "";
+      
+        // Reset radio buttons
+        const petTypeRadios = document.getElementsByName("petType");
+        petTypeRadios.forEach(radio => radio.checked = false);
+      
+        const serviceRadios = document.getElementsByName("service");
+        serviceRadios.forEach(radio => radio.checked = false);
+      
+        // Hide the grooming and veterinary options
+        document.getElementById("grooming-options").style.display = "none";
+        document.getElementById("veterinary-options").style.display = "none";
+      
+        // Reset dropdowns
+        document.getElementById("groomingService").selectedIndex = 0;
+        document.getElementById("size").selectedIndex = 0;
+        document.getElementById("veterinaryService").selectedIndex = 0;
+      
+        // Reset price display
+        document.getElementById("price").textContent = "Price:";
+      }
       // Function to open the services modal
       function openServicesModal() {
         const modal = document.getElementById("servicesModal");
@@ -415,6 +457,7 @@
           document.getElementById("servicesModal").style.display = "none";
         }, 400); // Match the transition duration
       }
+
       // Open the modal
       function openModal() {
         document.getElementById("appointmentModal").style.display = "block";
@@ -423,6 +466,7 @@
       // Close the modal
       function closeModal() {
         document.getElementById("appointmentModal").style.display = "none";
+        resetForm();
       }
 
       // Close the modal

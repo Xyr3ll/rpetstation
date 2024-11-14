@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book an Appointment</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="appointment-page">
+    <h1>Book an appointment</h1>
+    <form class="appointment-form">
+      <div class="form-section pet-info">
+        <h2>Pet Information</h2>
+        
+        <label>Pet Type</label>
+        <div class="radio-group">
+          <input type="radio" id="dog" name="petType" value="Dog" />
+          <label for="dog">Dog</label>
+          <input type="radio" id="cat" name="petType" value="Cat" />
+          <label for="cat">Cat</label>
+        </div>
+        
+        <label for="breed">Breed</label>
+        <input type="text" id="breed" name="breed" placeholder="Insert your pet breed" />
+
+        <label for="age">Age</label>
+        <input type="text" id="age" name="age" placeholder="2 yr. old" />
+
+        <label>Services(s)</label>
+        <div class="radio-group">
+          <input type="radio" id="grooming" name="service" value="Grooming" />
+          <label for="grooming">Grooming</label>
+          <input type="radio" id="veterinary" name="service" value="Veterinary" />
+          <label for="veterinary">Veterinary</label>
+        </div>
+        <input type="text" placeholder="Type your preferred service" />
+
+        <label for="schedule">Appointment Schedule</label>
+        <input type="date" id="schedule-date" name="schedule-date" />
+        <input type="time" id="schedule-time" name="schedule-time" />
+      </div>
+
+      <div class="form-section owner-info">
+        <h2>Owner Information</h2>
+        
+        <label for="ownerName">Name</label>
+        <input type="text" id="ownerName" name="ownerName" placeholder="Kurt D. Carreon" />
+
+        <label for="contactNumber">Contact Number</label>
+        <input type="text" id="contactNumber" name="contactNumber" placeholder="09xxxxxxxx" />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="kurtcarreon2@gmail.com" />
+
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Your address here"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="confirm">Confirm</button>
+        <button type="button" class="cancel">Cancel</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

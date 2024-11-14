@@ -1,6 +1,7 @@
 /* Modal background */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   position: fixed;
   z-index: 1;
   left: 0;
@@ -14,7 +15,7 @@
 
 /* Modal content */
 .modal-content {
-  background-color: #f3c623; 
+  background-color: #f3c623;
   margin: 10% auto;
   margin-top: 5%;
   padding: 20px;
@@ -22,6 +23,7 @@
   width: 50%;
   max-width: 900px;
   font-family: Arial, sans-serif;
+  animation: slideInFromTop 0.3s ease-in;
 }
 
 /* Close button */
@@ -38,12 +40,14 @@ h1 {
   color: #333;
   text-align: center;
 }
+
 h2 {
   color: #333;
   margin-bottom: 30px;
 }
 
-.appointment-form, .payment-form {
+.appointment-form,
+.payment-form {
   display: flex;
   justify-content: space-between;
   padding: 20px;
@@ -68,14 +72,17 @@ input[type="text"],
 input[type="email"],
 input[type="date"],
 input[type="time"],
+input[type="tel"],
 textarea {
   width: 100%;
   border: none;
   padding-bottom: 15px;
-  border-bottom: 1px solid #333; /* Darker border color */
+  border-bottom: 1px solid #333;
+  /* Darker border color */
   background-color: transparent;
   outline: none;
-  color: #333; /* Text color */
+  color: #333;
+  /* Text color */
   font-size: 16px;
   margin-bottom: 20px;
 }
@@ -94,6 +101,7 @@ textarea::placeholder {
   align-items: center;
   gap: 5px;
 }
+
 .radio-group label {
   margin-right: 50px;
 }
@@ -114,10 +122,12 @@ textarea {
   border-radius: 4px;
   cursor: pointer;
 
-  width: 48%; /* Ensure buttons don't stretch full width */
+  width: 48%;
+  /* Ensure buttons don't stretch full width */
   font-size: 16px;
   margin-top: 90px;
 }
+
 .form-actions .confirm {
   background-color: #0066cc;
   color: white;
@@ -151,14 +161,18 @@ textarea {
   border-radius: 6px;
   background-color: #f9f9f9;
   transition: border-color 0.3s ease, background-color 0.3s ease;
-  appearance: none; /* Removes default arrow in most browsers */
-  -webkit-appearance: none; /* Removes default arrow for Safari */
-  -moz-appearance: none; /* Removes default arrow for Firefox */
+  appearance: none;
+  /* Removes default arrow in most browsers */
+  -webkit-appearance: none;
+  /* Removes default arrow for Safari */
+  -moz-appearance: none;
+  /* Removes default arrow for Firefox */
 }
 
 /* Custom arrow for select box */
 .custom-select::after {
-  content: "▼"; /* Downward arrow */
+  content: "▼";
+  /* Downward arrow */
   position: absolute;
   right: 16px;
   top: 50%;
@@ -169,7 +183,8 @@ textarea {
 
 /* Focus effect for the select box */
 .custom-select:focus {
-  border-color: #4caf50; /* Green border on focus */
+  border-color: #4caf50;
+  /* Green border on focus */
   background-color: #e7f5e7;
   outline: none;
 }
@@ -184,8 +199,10 @@ select#paymentMethod {
   background-color: #f9f9f9;
   color: #333;
   margin-top: 5px;
-  appearance: none; /* Remove default arrow for customization */
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='grey' d='M7 10l5 5 5-5z'/></svg>"); /* Custom arrow */
+  appearance: none;
+  /* Remove default arrow for customization */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path fill='grey' d='M7 10l5 5 5-5z'/></svg>");
+  /* Custom arrow */
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px;
@@ -193,29 +210,47 @@ select#paymentMethod {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+
   /* On tablet and mobile screens */
   .modal-content {
-    width: 100%; 
+    width: 100%;
     margin: 10% auto;
   }
 
   .appointment-form {
-    flex-direction: column; /* Stack form fields vertically */
+    flex-direction: column;
+    /* Stack form fields vertically */
     max-width: 100%;
   }
 
   .form-section {
-    width: 100%; /* Full width for form fields */
+    width: 100%;
+    /* Full width for form fields */
     margin: 0;
   }
 
   .form-actions {
-    text-align: center; /* Center buttons on small screens */
+    text-align: center;
+    /* Center buttons on small screens */
   }
 
   .form-actions .confirm,
   .form-actions .cancel {
-    width: 100%; /* Full width buttons on mobile */
-    margin-right: 0; /* Remove right margin */
+    width: 100%;
+    /* Full width buttons on mobile */
+    margin-right: 0;
+    /* Remove right margin */
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

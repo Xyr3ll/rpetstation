@@ -19,9 +19,7 @@
     />
 
     <title>Employees</title>
-    <link rel="stylesheet" href="/css/admin_appointments.css" />
     <link rel="stylesheet" href="/css/admin_employee.css" />
-    <link rel="stylesheet" href="/css/admin_admin.css" />
     <link rel="stylesheet" href="/css/sidebarheader.css" />
   </head>
 
@@ -69,7 +67,7 @@
             </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="reports.html">
+            <a href="index.html">
               <span class="label">Log-out</span>
             </a>
           </li>
@@ -90,8 +88,11 @@
               <table class="table">
                 <thead>
                   <tr>
+                    <th>Employee Name</th>
                     <th>Employee Username</th>
                     <th>Employee Password</th>
+                    <th>Employee Address</th>
+                    <th>Employee Email</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -108,6 +109,14 @@
           <div class="modal-content">
             <h2>Add New Employee</h2>
             <form id="addEmployeeForm">
+              <label for="employeeName">Full Name:</label>
+              <input
+                type="text"
+                id="employeeName"
+                name="employeeUsername"
+                required
+              />
+
               <label for="employeeUsername">Username:</label>
               <input
                 type="text"
@@ -123,6 +132,22 @@
                 name="employeePassword"
                 required
               />
+
+              <label for="employeeAddress">Address:</label>
+              <input
+                type="text"
+                id="employeeAddress"
+                name="employeeAddress"
+                required
+              />
+
+              <label for="employeeEmail">Email:</label>
+              <input
+                type="email"
+                id="employeeEmail"
+                name="employeeEmail"
+                required
+              />
               <button type="submit">Add Employee</button>
             </form>
           </div>
@@ -133,6 +158,15 @@
           <div class="modal-content">
             <h2>Edit Employee</h2>
             <form id="editEmployeeForm">
+
+              <label for="editEmployeeName">Full Name:</label>
+              <input
+                type="text"
+                id="editEmployeeName"
+                name="employeeUsername"
+                required
+              />
+
               <label for="editEmployeeUsername">Username:</label>
               <input
                 type="text"
@@ -146,6 +180,22 @@
                 type="password"
                 id="editEmployeePassword"
                 name="employeePassword"
+                required
+              />
+
+              <label for="editEmployeeAddress">Address:</label>
+              <input
+                type="text"
+                id="editEmployeeAddress"
+                name="employeeAddress"
+                required
+              />
+
+              <label for="editEmployeeEmail">Email:</label>
+              <input
+                type="email"
+                id="editEmployeeEmail"
+                name="employeeEmail"
                 required
               />
               <button type="submit">Save Changes</button>

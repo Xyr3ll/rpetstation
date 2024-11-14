@@ -6,6 +6,7 @@ import {
   setDoc,
   doc,
   getDoc,
+  getDocs,
   updateDoc,
   runTransaction,
 } from "../firebase/database.js";
@@ -16,15 +17,14 @@ import {
   getDownloadURL,
 } from "../firebase/database.js";
 
-// Close the modal when clicking outside of the modal content
+// Close modal when clicking outside modal content
 window.onclick = function (event) {
-  var modal = document.getElementById("appointmentModal");
+  const modal = document.getElementById("appointmentModal");
   if (event.target == modal) {
     modal.style.display = "none";
   }
 };
 
-// For veterinary and Grooming function combo box
 document.addEventListener("DOMContentLoaded", async function () {
   const groomingRadio = document.getElementById("grooming");
   const veterinaryRadio = document.getElementById("veterinary");
@@ -37,24 +37,51 @@ document.addEventListener("DOMContentLoaded", async function () {
   const priceText = document.getElementById("price");
   const confirmButton = document.getElementById("confirmButton");
 
-  // Fetch services and prices from Firestore
   let groomingPrices = {};
   let veterinaryPrices = {};
-  
-  const groomingRef = collection(db, "services/grooming");
-  const veterinaryRef = collection(db, "services/veterinary");
 
-  // Fetch grooming services and prices
-  const groomingSnapshot = await getDocs(groomingRef);
-  groomingSnapshot.forEach(doc => {
-    groomingPrices[doc.id] = doc.data();
-  });
+  const groomingRef = collection(db, "services/grooming/servicesList");
+  const veterinaryRef = collection(db, "services/veterinary/servicesList");
 
-  // Fetch veterinary services and prices
-  const veterinarySnapshot = await getDocs(veterinaryRef);
-  veterinarySnapshot.forEach(doc => {
-    veterinaryPrices[doc.id] = doc.data().price;
-  });
+  try {
+    // Fetch grooming services
+    const groomingSnapshot = await getDocs(groomingRef);
+    groomingSnapshot.forEach((doc) => {
+      const data = doc.data();
+      groomingPrices[doc.id] = data.prices || {};
+
+      const option = document.createElement("option");
+      option.value = doc.id;
+      option.textContent = data.name;
+      groomingService.appendChild(option);
+    });
+
+    // Populate sizes based on the first grooming service’s available sizes
+    const firstServicePrices = groomingSnapshot.docs[0]?.data().prices;
+    if (firstServicePrices) {
+      Object.keys(firstServicePrices).forEach((sizeCategory) => {
+        const option = document.createElement("option");
+        option.value = sizeCategory;
+        option.textContent = sizeCategory;
+        size.appendChild(option);
+      });
+    }
+
+    // Fetch veterinary services
+    const veterinarySnapshot = await getDocs(veterinaryRef);
+    veterinarySnapshot.forEach((doc) => {
+      const data = doc.data();
+      veterinaryPrices[doc.id] = data.price;
+
+      const option = document.createElement("option");
+      option.value = doc.id;
+      option.textContent = data.name;
+      veterinaryService.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching services: ", error);
+    alert("Failed to load services. Please try again later.");
+  }
 
   // Show options based on selected service
   groomingRadio.addEventListener("change", function () {
@@ -69,49 +96,44 @@ document.addEventListener("DOMContentLoaded", async function () {
     priceDisplay.style.display = "none";
   });
 
-  // Update the price display for grooming services
+  // Update grooming price based on selected service and size
   function updateGroomingPrice() {
     const selectedService = groomingService.value;
     const selectedSize = size.value;
-    const servicePrices = groomingPrices[selectedService];
-    if (servicePrices && servicePrices[selectedSize]) {
+    const servicePrices = groomingPrices[selectedService] || {};
+
+    if (servicePrices[selectedSize] !== undefined) {
       const price = servicePrices[selectedSize];
       priceText.textContent = "Price: ₱" + price;
       priceDisplay.style.display = "block";
-
-      const numericPrice = price; // This is already a number, no need for conversion
-      console.log("Numeric Price:", numericPrice);
     } else {
       priceDisplay.style.display = "none";
     }
   }
 
-  // Update price when veterinary service changes
+  // Update veterinary price based on selected service
   function updateVeterinaryPrice() {
     const selectedService = veterinaryService.value;
     const price = veterinaryPrices[selectedService];
+
     if (price) {
       priceText.textContent = "Price: ₱" + price;
       priceDisplay.style.display = "block";
-
-      const numericPrice = price; // This is already a number, no need for conversion
-      console.log("Numeric Price:", numericPrice);
     } else {
       priceDisplay.style.display = "none";
     }
   }
 
-  // Attach change listeners
   groomingService.addEventListener("change", updateGroomingPrice);
   size.addEventListener("change", updateGroomingPrice);
   veterinaryService.addEventListener("change", updateVeterinaryPrice);
 
-  // Function to handle the Confirm button click event and save the booking to Firestore
+  // Confirm booking
   confirmButton.addEventListener("click", async function (event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
 
     if (!validateBookingForm()) {
-      return; // Stop if validation fails
+      return;
     }
 
     const customerName = document.getElementById("ownerName").value;
@@ -124,92 +146,136 @@ document.addEventListener("DOMContentLoaded", async function () {
       'input[name="service"]:checked'
     ).value;
 
-    const selectedServiceElement = document.getElementById(
-      serviceType + "Service"
-    );
-    const selectedService = selectedServiceElement.value;
-    const selectedSize =
-      serviceType === "grooming" ? document.getElementById("size").value : null;
-    const priceTextContent = document.getElementById("price").textContent;
-    const priceNumeric = parseInt(priceTextContent.replace(/[^\d]/g, ""));
+    // Ensure serviceType is valid before fetching the selected service
+    const serviceElement = document.getElementById(serviceType + "Service");
+    let selectedService = "";
+
+    // Check if the service element is available
+    if (serviceElement) {
+      const selectedServiceID = serviceElement.value; // Get the service ID
+      try {
+        // Determine the correct collection path based on serviceType
+        let collectionPath = "";
+        if (serviceType === "veterinary") {
+          collectionPath = "services/veterinary/servicesList";
+        } else if (serviceType === "grooming") {
+          collectionPath = "services/grooming/servicesList";
+        } else {
+          console.error("Invalid service type");
+          alert("Invalid service type.");
+          return;
+        }
+
+        // Fetch the service details from Firestore using the correct collection path
+        const serviceDocRef = doc(db, collectionPath, selectedServiceID);
+        const serviceDoc = await getDoc(serviceDocRef);
+        if (serviceDoc.exists()) {
+          selectedService = serviceDoc.data().name; // Get the name of the service (e.g., "Gupit")
+        } else {
+          console.error("No such service!");
+          alert("Selected service not found.");
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching service name: ", error);
+        alert("Error fetching service details.");
+        return;
+      }
+    } else {
+      console.error("Service element not found for serviceType:", serviceType);
+      alert("Selected service is not valid.");
+      return;
+    }
+
+    // If the serviceType is grooming, set the selected size, otherwise null
+    const selectedSize = serviceType === "grooming" ? size.value : null;
+
+    const priceNumeric = parseInt(priceText.textContent.replace(/[^\d]/g, ""));
     const scheduleDate = document.getElementById("schedule-date").value;
     const scheduleTime = document.getElementById("schedule-time").value;
-
     const status = "pending";
 
-    // Combine date and time
     const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
 
-    // Use a transaction to get and increment the booking counter
     try {
       const appointmentID = await runTransaction(db, async (transaction) => {
         const counterRef = doc(db, "counters", "bookingCounter");
         const counterSnap = await transaction.get(counterRef);
 
-        if (!counterSnap.exists()) {
-          transaction.set(counterRef, { count: 0 });
-          return "00001"; // Start with the first ID
-        }
-
-        const newCount = counterSnap.data().count + 1;
-        transaction.update(counterRef, { count: newCount });
+        const newCount = counterSnap.exists()
+          ? counterSnap.data().count + 1
+          : 1;
+        transaction.set(counterRef, { count: newCount });
 
         return String(newCount).padStart(5, "0");
       });
 
       const customerBookingData = {
-        customerName: customerName,
-        customerPhone: customerPhone,
-        customerEmail: customerEmail,
-        petType: petType,
-        serviceType: serviceType,
-        selectedService: selectedService,
-        selectedSize: selectedSize,
+        customerName,
+        customerPhone,
+        customerEmail,
+        petType,
+        serviceType,
+        selectedService, // Now using the name of the service instead of the ID
+        selectedSize,
         price: priceNumeric,
-        status: status,
-        appointmentID: appointmentID,
-        timestamp: new Date(), // current timestamp for tracking
-        scheduledDateTime: scheduleDateTime, // store the combined date and time
+        status,
+        appointmentID,
+        timestamp: new Date(),
+        scheduledDateTime: scheduleDateTime,
       };
 
       const bookingsRef = collection(db, "customerBooking");
       const docRef = await addDoc(bookingsRef, customerBookingData);
-      console.log("Booking added with ID: ", docRef.id);
-
       alert(
         "Your booking has been confirmed with appointment ID: " + appointmentID
       );
-      const modal = document.getElementById("appointmentModal");
-      modal.style.display = "none";
-
-      // Show payment modal
-      showPaymentModal(docRef.id); // Pass the appointmentID to the payment modal
+      document.getElementById("appointmentModal").style.display = "none";
+      resetForm();
+      showPaymentModal(docRef.id);
     } catch (error) {
-      console.error("Error adding document: ", error);
+      console.error("Error adding booking: ", error);
       alert("There was an error with your booking.");
     }
   });
 
-  // Function to validate booking form fields
+  // Form validation
   function validateBookingForm() {
-    const customerName = document.getElementById("ownerName").value;
-    const customerPhone = document.getElementById("contactNumber").value;
-    const customerEmail = document.getElementById("email").value;
+    const requiredFields = [
+      "ownerName",
+      "contactNumber",
+      "email",
+      "schedule-date",
+      "schedule-time",
+    ];
+
+    for (const field of requiredFields) {
+      const fieldElement = document.getElementById(field);
+      if (!fieldElement.value) {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+    }
+
+    // Validate contact number as numeric
+    const contactNumber = document.getElementById("contactNumber").value;
+    if (!/^[0-9]+$/.test(contactNumber)) {
+      alert("Please enter a valid contact number with only numbers.");
+      return false;
+    }
+
+    // Validate email format
+    const email = document.getElementById("email").value;
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+
     const petType = document.querySelector('input[name="petType"]:checked');
     const serviceType = document.querySelector('input[name="service"]:checked');
-    const scheduleDate = document.getElementById("schedule-date").value;
-    const scheduleTime = document.getElementById("schedule-time").value;
 
-    if (
-      !customerName ||
-      !customerPhone ||
-      !customerEmail ||
-      !petType ||
-      !serviceType ||
-      !scheduleDate ||
-      !scheduleTime
-    ) {
-      alert("Please fill in all required fields.");
+    if (!petType || !serviceType) {
+      alert("Please select a pet type and service type.");
       return false;
     }
 
@@ -222,16 +288,49 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     if (serviceType.value === "grooming") {
-      const selectedSize = document.getElementById("size").value;
-      if (!selectedSize) {
+      const size = document.getElementById("size");
+      if (!size || !size.value) {
         alert("Please select a size for grooming services.");
         return false;
       }
     }
+
     return true;
   }
 
-  // Payment modal
+  function resetForm() {
+    // Reset text inputs
+    document.getElementById("ownerName").value = "";
+    document.getElementById("contactNumber").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("breed").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("schedule-date").value = "";
+    document.getElementById("schedule-time").value = "";
+  
+    // Reset radio buttons
+    const petTypeRadios = document.getElementsByName("petType");
+    petTypeRadios.forEach(radio => radio.checked = false);
+  
+    const serviceRadios = document.getElementsByName("service");
+    serviceRadios.forEach(radio => radio.checked = false);
+  
+    // Hide the grooming and veterinary options
+    document.getElementById("grooming-options").style.display = "none";
+    document.getElementById("veterinary-options").style.display = "none";
+  
+    // Reset dropdowns
+    document.getElementById("groomingService").selectedIndex = 0;
+    document.getElementById("size").selectedIndex = 0;
+    document.getElementById("veterinaryService").selectedIndex = 0;
+  
+    // Reset price display
+    document.getElementById("price").textContent = "Price:";
+  }
+  
+
+  // Payment modal handling
   function showPaymentModal(appointmentID) {
     const paymentModal = document.getElementById("paymentModal");
     paymentModal.style.display = "block";
@@ -239,7 +338,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const confirmPaymentButton = document.getElementById("confirmPayment");
     confirmPaymentButton.onclick = async (event) => {
       event.preventDefault();
-      await uploadProofOfPayment(appointmentID); // Pass appointmentID directly
+      await uploadProofOfPayment(appointmentID);
     };
   }
 });
@@ -247,7 +346,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 // Upload proof of payment
 async function uploadProofOfPayment(appointmentID) {
   try {
-    const paymentProof = document.getElementById("paymentProof").files[0];
+    const paymentProof = document.getElementById("proofOfPayment").files[0];
     if (!paymentProof) {
       alert("Please select a payment proof file.");
       return;
@@ -270,3 +369,29 @@ async function uploadProofOfPayment(appointmentID) {
     alert("Failed to upload payment proof.");
   }
 }
+
+function setMinDateTime() {
+  const dateInput = document.getElementById("schedule-date");
+  const timeInput = document.getElementById("schedule-time");
+
+  // Get the current date and time
+  const now = new Date();
+  const currentDate = now.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+  const currentTime = now.toTimeString().slice(0, 5); // Format as "HH:MM"
+
+  // Set the minimum date and time
+  dateInput.min = currentDate;
+  timeInput.min = currentTime;
+
+  // If the user selects the current date, set the min time for today
+  dateInput.addEventListener("change", function () {
+    if (dateInput.value === currentDate) {
+      timeInput.min = currentTime; // Set minimum time for today
+    } else {
+      timeInput.min = "00:00"; // Reset for future dates
+    }
+  });
+}
+
+// Call this function when the page loads or the modal opens
+setMinDateTime();

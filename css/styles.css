@@ -5,13 +5,15 @@
     box-sizing: border-box;
 }
 
-/* Body and Background */
 body {
     font-family: Arial, sans-serif;
-    background-color: #FFCC00;
-    flex-direction: column;; /* Adjust based on header height */
+    background-color: #FFCC00; /* fallback color */
+    background-image: url('../images/rpetbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    flex-direction: column;
 }
-
 /* Header */
 header {
     position: fixed;
@@ -23,14 +25,16 @@ header {
     align-items: center;
     padding: 10px 50px;
     background-color: #ffcc00;
-    z-index: 1000; /* Ensure the header is above other content */
+    z-index: 1000;
     box-shadow: 0px 2px 5px rgba(58, 58, 58, 0.466);
+
 }
 
 /* Logo */
 header .logo {
     display: flex;
     align-items: center;
+    animation: slideFromLeft 1s ease-out;
 }
 
 header .logo img {
@@ -58,6 +62,7 @@ nav a {
     text-decoration: none;
     padding: 10px 15px;
     transition: background-color 0.3s, color 0.3s;
+    animation: slideFromright 1s ease-out;
 }
 
 nav a:hover {
@@ -121,7 +126,6 @@ nav a:hover {
     align-items: center;
     padding: 100px;
     margin: 0;
-    background-color: #FFCC00;
 }
 
 .hero-container {
@@ -131,11 +135,12 @@ nav a:hover {
     max-width: 100%;
     width: 90%;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 60px;
     padding: 100px;
     background-color: #ffcf0d;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    animation: slideFromLeft 1s ease-out;
 }
 
 .hero-content {
@@ -181,27 +186,19 @@ nav a:hover {
     margin: 0 auto;
     padding: 20px;
     width: 90%;
-    margin-top: 200px;
+    margin-top: 140px;
     margin-bottom: 200px;
     padding: 100px;
     background-color: #ffcf0d;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    animation: slideFromLeft 1s ease-out;
 }
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-bottom: 200px;
-    padding: 20px;
-    width: 90%;
-    padding: 100px;
-    background-color: #ffcf0d;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+
+
+
 /* About Section */
 .about {
-    background-color: #FFCC00;
     padding: 50px 20px;
     text-align: center;
 }
@@ -287,11 +284,12 @@ nav a:hover {
         font-size: 1rem;
     }
 
-    .appointment-form{
+    .appointment-form {
         width: 700px;
         flex-direction: column;
     }
-    .modal-content-services.show{
+
+    .modal-content-services.show {
         padding-top: 200px;
     }
 
@@ -348,11 +346,13 @@ nav a:hover {
     .feedbacks p {
         font-size: 1rem;
     }
-    .appointment-form{
+
+    .appointment-form {
         width: 600px;
         flex-direction: column;
     }
-    .modal-content-services.show{
+
+    .modal-content-services.show {
         padding-top: 200px;
     }
 }
@@ -399,13 +399,16 @@ nav a:hover {
         padding: 20px;
         padding-top: 60px;
     }
-    .appointment-form{
+
+    .appointment-form {
         width: 600px;
         flex-direction: column;
     }
-    .modal-content-services.show{
+
+    .modal-content-services.show {
         padding-top: 200px;
     }
+
     .about h2,
     .feedbacks h2 {
         font-size: 1.6rem;
@@ -414,5 +417,26 @@ nav a:hover {
     .about p,
     .feedbacks p {
         font-size: 0.9rem;
+    }
+}
+/* Slide From Left Animation */
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes slideFromright {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }

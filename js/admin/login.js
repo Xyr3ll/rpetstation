@@ -1,4 +1,4 @@
-import { db, doc, getDoc } from "../firebase/database.js";
+import { db, collection, query, where, getDocs } from "../firebase/database.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Close modal when clicking outside
@@ -14,26 +14,36 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const admin = document.querySelector('input[name="username"]').value;
+      // Get user type (admin or employee)
+      const userType = document.getElementById("userType").value;
+      const username = document.querySelector('input[name="username"]').value;
       const password = document.querySelector('input[name="password"]').value;
 
-      try {
-        // Retrieve admin document
-        const docRef = doc(db, "admins", admin);
-        const docSnap = await getDoc(docRef);
+      // Determine Firestore collection based on user type
+      const collectionName = userType === "admin" ? "admins" : "employees";
 
-        if (docSnap.exists()) {
-          // Compare the hashed password stored in Firestore
-          const storedPassword = docSnap.data().password;
+      try {
+        // Query the employees collection to find the document with the matching username field
+        const employeesRef = collection(db, collectionName);
+        const q = query(employeesRef, where("username", "==", username));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const employeeDoc = querySnapshot.docs[0];
+          const storedPassword = employeeDoc.data().password;
 
           if (storedPassword === password) {
-            // Redirect to the admin panel
-            window.location.href = "admin_appointment.html";
+            // Redirect based on user type
+            if (userType === "admin") {
+              window.location.href = "admin_appointment.html";
+            } else {
+              window.location.href = "employee_appointment.html"; // Change to the employee dashboard URL
+            }
           } else {
             alert("Invalid password!");
           }
         } else {
-          alert("Admin not found!");
+          alert(`${userType === "admin" ? "Admin" : "Employee"} not found!`);
         }
       } catch (error) {
         console.error("Error logging in:", error);
@@ -42,3 +52,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+const

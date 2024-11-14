@@ -1,18 +1,27 @@
+/* Main Container */
 .main-container {
   grid-area: main;
   overflow-y: auto;
-  padding: 20px 20px;
+  padding: 20px;
   animation: slideIn 1s ease forwards;
   background-color: #967a18;
-}
-.header-title {
-  font-size: 29px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* appointment List */
+/* Header Title */
+.header-title {
+  font-size: 29px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* employee List */
 .table {
-  margin-top: 40px;
-  width: 100%;
+  margin: 40px auto;
+  /* Centers horizontally */
+  width: 50%;
   border-collapse: separate;
   font-size: 0.8em;
   border-radius: 5px 5px 0 0;
@@ -21,38 +30,47 @@
 }
 
 .table thead th {
-  color: black;
+  color: #333;
+  padding: 15px;
+  background-color: #dddddd;
+  font-weight: bold;
+  border-top: 2px solid #b8b8b8;
 }
 
 .table tbody td {
   font-size: 15px;
   padding: 15px;
-  color: rgb(0, 0, 0);
+  color: #333;
   text-align: center;
 }
 
 .table tbody tr {
   background-color: #ffffffea;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.7s ease, box-shadow 0.3s ease;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .table tbody tr:last-of-type {
   border-bottom: 2px solid #dddddd;
 }
 
-/* Inventory Header */
+/* employee Header */
 .inventory-header {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 20px;
   color: black;
 }
 
 .add-product-btn {
-  background-color: #f3c623;
-  color: black;
+  background-color: #004a99;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -60,69 +78,102 @@
   display: flex;
   align-items: center;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .add-product-btn .material-icons-outlined {
   margin-right: 8px;
 }
 
-/* Modal for adding employee */
+/* Modal for Adding Employee */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.4);
   overflow: auto;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
 }
 
-/* Modal content */
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* Modal Content */
 .modal-content {
-  background-color: white;
+  background-color: #f3c623;
   margin: 15% auto;
   padding: 20px;
+  color: #333;
   border: 1px solid #888;
   width: 30%;
   border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: slideInFromright 0.3s ease-out;
 }
 
-/* Form inputs */
-#addEmployeeForm input, #editEmployeeForm input {
-  width: 70%;
-  padding: 10px 10px;
+/* Form Inputs */
+#addEmployeeForm input,
+#editEmployeeForm input {
+  width: 100%;
+  padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   letter-spacing: 1px;
+  box-sizing: border-box;
 }
 
 /* Button */
-#addEmployeeForm button, #editEmployeeForm button{
+#addEmployeeForm button,
+#editEmployeeForm button {
   padding: 10px 15px;
-  background-color: #4CAF50;
+  background-color: #004a99;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  display: block;  /* Make the button block-level */
-  margin: 0 auto;
+  display: block;
+  margin: 20px auto 0;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-#addEmployeeForm button:hover {
-  background-color: #45a049;
-}
-
+/* Action Buttons */
 .edit-button,
 .delete-button {
   border: none;
   cursor: pointer;
   background-color: transparent;
+  margin: 0 5px;
 }
 
 .edit-button img,
 .delete-button img {
   width: 20px;
+  transition: transform 0.2s ease;
+}
+
+.edit-button img:hover,
+.delete-button img:hover {
+  transform: scale(1.1);
+}
+
+@keyframes slideInFromright {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

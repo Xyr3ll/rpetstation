@@ -8,6 +8,7 @@ footer {
     color: white;
     padding: 20px;
     text-align: center; /* Center the text */
+    animation: slideFromBottom 1s ease-out;
   }
   
   .footer-bottom {
@@ -27,20 +28,13 @@ footer {
 
     font-size: 1rem;
   }
-  
-  /* Mobile Responsiveness */
-  @media screen and (max-width: 768px) {
-    .footer-container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .footer-links, .footer-social {
-      margin-top: 10px;
-    }
-  
-    .footer-links a, .footer-social a {
-      margin: 5px 0;
-    }
+@keyframes slideFromBottom {
+  from {
+      opacity: 0;
+      transform: translateY(100px); 
   }
-  
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
