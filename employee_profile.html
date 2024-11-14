@@ -54,7 +54,6 @@
       <!-- Main Content -->
       <main class="main-container-profile" id="profile-container">
         <span class="edit-icon" onclick="openEditModal()">
-          <span class="material-icons-outlined">edit</span>
         </span>
       </main>
 
@@ -88,39 +87,9 @@
     <!-- JavaScript -->
     <script type="module" src="/js/employee_profile/employee_profile.js"></script>
     <script src="/js/sidebarheader.js"></script>
-    <script src="/js/modal.js"></script>
-
+    
     <script>
-        function openEditModal() {
-            document.getElementById("editModal").style.display = "block";
-        }
-        
-        function closeEditModal() {
-            document.getElementById("editModal").style.display = "none";
-        }
-        
-        function saveProfile() {
-            // Get input values from the form
-            const name = document.getElementById("editName").value;
-            const username = document.getElementById("editUsername").value;
-            const password = document.getElementById("editPassword").value;
-            const address = document.getElementById("editAddress").value;
-            const email = document.getElementById("editEmail").value;
-        
-            // Implement save functionality, e.g., update Firebase or local data
-            console.log("Profile updated:", { name, username, password, address, email });
-        
-            // Close the modal after saving
-            closeEditModal();
-        }
-        
-        // Close modal when clicking outside the modal content
-        window.onclick = function(event) {
-            const modal = document.getElementById("editModal");
-            if (event.target === modal) {
-                closeEditModal();
-            }
-        }
+    
     </script>
   </body>
 </html>
