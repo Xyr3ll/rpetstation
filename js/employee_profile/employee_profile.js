@@ -45,24 +45,24 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="profile-details">
               <div class="profile-item">
-                  <span class="label-profile">Name:</span>
-                  <span class="value">${data.name}</span>
+                  <span class="label-profile"">Name:</span>
+                  <span class="value" id="employee-name">${data.name}</span>
               </div>
               <div class="profile-item">
                   <span class="label-profile">Username:</span>
-                  <span class="value">${data.username}</span>
+                  <span class="value" id="employee-username">${data.username}</span>
               </div>
               <div class="profile-item">
                   <span class="label-profile">Password:</span>
-                  <span class="value">${data.password}</span>
+                  <span class="value" id="employee-password">${data.password}</span>
               </div>
               <div class="profile-item">
                   <span class="label-profile">Address:</span>
-                  <span class="value">${data.address}</span>
+                  <span class="value" id="employee-address">${data.address}</span>
               </div>
               <div class="profile-item">
                   <span class="label-profile">Email:</span>
-                  <span class="value">${data.email}</span>
+                  <span class="value" id="employee-email">${data.email}</span>
               </div>
           </div>
 
@@ -82,16 +82,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Function to open the edit modal
 function openEditModal(username) {
+  console.log("Opening modal for username:", username); // Log to check if the username is passed correctly
+  if (!username) {
+    console.error("Invalid username in openEditModal");
+    alert("Invalid username.");
+    return;
+  }
+
   fetchUserProfile(username)
     .then((data) => {
-      // Populate the modal fields with the fetched data
       document.getElementById("editName").value = data.name || "";
       document.getElementById("editUsername").value = data.username || "";
       document.getElementById("editPassword").value = data.password || "";
       document.getElementById("editAddress").value = data.address || "";
       document.getElementById("editEmail").value = data.email || "";
-
-      // Show the modal
       document.getElementById("editModal").style.display = "block";
     })
     .catch((error) => {
@@ -100,25 +104,27 @@ function openEditModal(username) {
     });
 }
 
+
+
 // Function to fetch the user's profile data from Firebase
 async function fetchUserProfile(username) {
+  console.log("Fetching profile for username:", username); // Log username to ensure it's being passed correctly
+  
   if (!username) {
     console.error("Username is undefined or null");
     return;
   }
 
   try {
-    // Fetch the user profile from Firestore based on username
     const q = query(
       collection(db, "employees"),
       where("username", "==", username)
     );
     const querySnapshot = await getDocs(q);
 
-    // Check if the query returns any documents
     if (!querySnapshot.empty) {
-      const userDoc = querySnapshot.docs[0]; // Assume username is unique
-      return userDoc.data(); // Return profile data
+      const userDoc = querySnapshot.docs[0];
+      return userDoc.data();
     } else {
       throw new Error("No such document found for this username!");
     }
@@ -128,29 +134,47 @@ async function fetchUserProfile(username) {
   }
 }
 
+
 // Save updated profile data back to Firebase
-async function saveProfile() {
-  // Get input values from the form
+function saveProfile() {
+  const username = document.getElementById("editUsername").value;
+  if (!username) {
+    console.error("Username is undefined or null");
+    alert("Invalid username, cannot save profile.");
+    return;
+  }
+  
+  // Continue with the saving logic
   const updatedData = {
     name: document.getElementById("editName").value,
-    username: document.getElementById("editUsername").value,
-    password: document.getElementById("editPassword").value, 
+    username: username,
+    password: document.getElementById("editPassword").value,
     address: document.getElementById("editAddress").value,
     email: document.getElementById("editEmail").value,
   };
 
+  // Ensure that other fields are also correctly populated before saving
+  updateFirestore(updatedData, username);
+}
+
+
+async function updateFirestore(updatedData, username) {
   try {
-    const docRef = doc(db, "employees");
+    const q = query(collection(db, "employees"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
 
-    // Update Firebase with the new data
+    if (querySnapshot.empty) {
+      console.error("No such document found for this username!");
+      alert("No such document found for this username!");
+      return;
+    }
+
+    const userDoc = querySnapshot.docs[0];
+    const docRef = doc(db, "employees", userDoc.id);
+
     await updateDoc(docRef, updatedData);
-
     console.log("Profile updated successfully!");
-
-    // Optionally, update displayed profile data without refreshing
     updateProfileDisplay(updatedData);
-
-    // Close the modal after saving
     closeEditModal();
   } catch (error) {
     console.error("Error updating profile:", error);
@@ -161,9 +185,12 @@ async function saveProfile() {
 // Update profile display without page refresh
 function updateProfileDisplay(data) {
   document.getElementById("employee-name").textContent = data.name || "N/A";
+  document.getElementById("employee-password").textContent = data.password || "N/A";
   document.getElementById("employee-username").textContent =
     data.username || "N/A";
   document.getElementById("employee-address").textContent =
     data.address || "N/A";
   document.getElementById("employee-email").textContent = data.email || "N/A";
 }
+
+window.saveProfile = saveProfile;
