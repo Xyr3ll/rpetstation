@@ -6,7 +6,11 @@ import {
   orderBy,
   doc,
   updateDoc,
+  getDoc
 } from "../firebase/database.js";
+
+const semaphoreApiKey = "d854e321e04d8e87704d1650a53001d2";
+const semaphoreSender = "rpet_station";
 
 // Search function
 function filterAppointments() {
@@ -15,9 +19,15 @@ function filterAppointments() {
 
   // Loop through each row and filter based on the search term
   appointmentRows.forEach((row) => {
-    const customerName = row.querySelector("td:nth-child(3)").textContent.toLowerCase(); // Get the customer name
-    const appointmentID = row.querySelector("td:nth-child(1)").textContent.toLowerCase(); // Get the appointment ID
-    const customerEmail = row.querySelector("td:nth-child(2)").textContent.toLowerCase(); // Get the customer email
+    const customerName = row
+      .querySelector("td:nth-child(3)")
+      .textContent.toLowerCase(); // Get the customer name
+    const appointmentID = row
+      .querySelector("td:nth-child(1)")
+      .textContent.toLowerCase(); // Get the appointment ID
+    const customerEmail = row
+      .querySelector("td:nth-child(2)")
+      .textContent.toLowerCase(); // Get the customer email
 
     // If the search term matches any of the columns, show the row, otherwise hide it
     if (
@@ -32,12 +42,25 @@ function filterAppointments() {
   });
 }
 
-document.getElementById("searchBar").addEventListener("input", filterAppointments); 
+document
+  .getElementById("searchBar")
+  .addEventListener("input", filterAppointments);
 
-// Function to update the appointment status
+// Function to update the appointment status and send SMS
 async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
   try {
     const appointmentRef = doc(db, "customerBooking", appointmentId); // Reference to the appointment document
+
+    // Fetch the customer data (including the phone number)
+    const appointmentDoc = await getDoc(appointmentRef); // Use getDoc() instead of get()
+    
+    if (!appointmentDoc.exists()) {
+      console.error("Appointment document not found.");
+      return;
+    }
+
+    const customerData = appointmentDoc.data();
+    const customerPhone = customerData.customerPhone;
 
     // Update the status in Firestore
     await updateDoc(appointmentRef, {
@@ -47,10 +70,40 @@ async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
     console.log(
       `Status for appointment with ID: ${appointmentId} has been updated to "${newStatus}" for ${customerName}.`
     );
+
+    // Send SMS using Semaphore after status change
+    sendSmsNotification(customerPhone, customerName, newStatus);
+
   } catch (error) {
     console.error("Error updating appointment status: ", error);
   }
 }
+
+// Function to send SMS using Semaphore API
+async function sendSmsNotification(customerPhone, customerName, status) {
+  const message = `Hello ${customerName}, your appointment status has been updated to: ${status}. Thank you!`;
+
+  try {
+    const response = await fetch('http://localhost:3000/send-sms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ customerPhone, customerName, status }),  // Ensure all fields are here
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log(`SMS sent to ${customerPhone}`);
+    } else {
+      console.error('Error sending SMS: ', data.error);
+    }
+  } catch (error) {
+    console.error('Error sending SMS: ', error);
+  }
+}
+
 
 // Function to fetch and display data in real-time
 function fetchAppointments() {
@@ -111,7 +164,11 @@ function fetchAppointments() {
                second: "2-digit",
                hour12: false, // Use 24-hour format
              })}</td>
-            <td>${proofOfPaymentURL ? `<img src="${proofOfPaymentURL}" alt="Proof of Payment" width="100" height="100" style="border-radius: 6px; cursor: pointer;"/>` : "Not Available"}</td>
+            <td>${
+              proofOfPaymentURL
+                ? `<img src="${proofOfPaymentURL}" alt="Proof of Payment" width="100" height="100" style="border-radius: 6px; cursor: pointer;"/>`
+                : "Not Available"
+            }</td>
             <td>${data.status || "Pending"}</td>
             <select class="status-select" data-order-id="${doc.id}">
               <option value="pending" ${
@@ -120,6 +177,9 @@ function fetchAppointments() {
               <option value="complete" ${
                 data.status === "complete" ? "selected" : ""
               }>Complete</option>
+              <option value="decline" ${
+                data.status === "decline" ? "selected" : ""
+              }>Decline</option>
             </select>
           </tr>
         `;
@@ -130,7 +190,6 @@ function fetchAppointments() {
           changeAppointmentStatus(doc.id, data.customerName, e.target.value);
         });
 
-        console.log("ID: " + doc.id);
         appointmentTableBody.appendChild(row);
       });
 
@@ -150,11 +209,10 @@ function setupImageClickHandler() {
 
   imageElements.forEach((img) => {
     img.addEventListener("click", function () {
-      openLightbox(this.src); 
+      openLightbox(this.src);
     });
   });
 }
-
 
 // Function to open the lightbox modal with the clicked image
 function openLightbox(imageSrc) {

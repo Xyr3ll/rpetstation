@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const serviceDocRef = doc(db, collectionPath, selectedServiceID);
         const serviceDoc = await getDoc(serviceDocRef);
         if (serviceDoc.exists()) {
-          selectedService = serviceDoc.data().name; // Get the name of the service (e.g., "Gupit")
+          selectedService = serviceDoc.data().name; 
         } else {
           console.error("No such service!");
           alert("Selected service not found.");
@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         customerEmail,
         petType,
         serviceType,
-        selectedService, // Now using the name of the service instead of the ID
+        selectedService,
         selectedSize,
         price: priceNumeric,
         status,
