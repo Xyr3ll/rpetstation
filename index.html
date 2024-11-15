@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>R'pet Station</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/terms.css" />
     <link rel="stylesheet" href="css/book_appointment.css" />
     <link rel="stylesheet" href="css/login.css" />
     <link rel="stylesheet" href="css/view_services.css" />
     <link rel="stylesheet" href="css/footer.css" />
   </head>
+
   <body>
     <header>
       <div class="logo">
@@ -166,7 +168,6 @@
                 name="schedule-date"
                 required
                 onkeydown="return false"
-
               />
               <input
                 type="time"
@@ -174,7 +175,6 @@
                 name="schedule-time"
                 required
                 onkeydown="return false"
-
               />
             </div>
 
@@ -196,7 +196,7 @@
                 id="contactNumber"
                 name="contactNumber"
                 pattern="[0-9]+"
-              placeholder="Please enter your valid mobile number"
+                placeholder="Please enter your valid mobile number"
                 title="Please enter a valid contact number."
                 required
               />
@@ -233,6 +233,136 @@
               </div>
             </div>
           </form>
+        </div>
+      </div>
+      <!--terms and condition modal-->
+      <div id="termsModal" class="modal">
+        <div class="modal-content-terms">
+          <h1>Terms and Conditions</h1>
+          <div class="modal-body">
+            <p>
+              At WEBICLIN, accessible from rpetstation.online, your privacy is a
+              top priority. This Privacy Policy explains how we collect, use,
+              and protect your information when you use our web-based
+              appointment system for R'PET Station. By using WEBICLIN, you agree
+              to the practices described in this policy.
+            </p>
+            <h3>1. Information We Collect</h3>
+            <p>
+              Personal Information: When you schedule an appointment, we collect
+              personal information that may include your name, phone number,
+              email address, and other contact details necessary for appointment
+              management.
+            </p>
+            <p>
+              Appointment Details: We collect information regarding the date,
+              time, and type of service you request, as well as additional
+              preferences to ensure an efficient service.
+            </p>
+            <p>
+              Automatic Information: When you access our website, we may
+              automatically collect information like your IP address, browser
+              type, operating system, and usage data for analytics and security
+              purposes.
+            </p>
+            <h3>2. How We Use Your Information</h3>
+            <p>
+              Appointment Management: Personal information is primarily used to
+              schedule, confirm, and remind you of appointments.
+            </p>
+            <p>
+              Notifications: Your phone number and email address allow us to
+              send SMS and email notifications related to appointment
+              confirmation, reminders, and changes.
+            </p>
+            <p>
+              Improving Service: We may use aggregated, non-identifiable data
+              for analytics to improve WEBICLIN’s functionality, user
+              experience, and service quality.
+            </p>
+            <h3>3. Sharing of Information</h3>
+            <p>
+              Service Providers: We may share information with trusted
+              third-party providers who assist us in delivering services, such
+              as SMS and email notification services. These providers are
+              obligated to protect your data in accordance with this Privacy
+              Policy.
+            </p>
+            <p>
+              Legal Requirements: We may disclose information if required by law
+              or in response to valid legal processes, such as a court order or
+              government request.
+            </p>
+            <p>
+              Business Transfers: If R'PET Station undergoes a business
+              transaction, such as a merger or acquisition, your information may
+              be transferred in accordance with applicable privacy laws.
+            </p>
+            <h3>4. Data Protection and Security</h3>
+            <p>
+              Data Security: We implement appropriate security measures,
+              including encryption and access controls, to protect your personal
+              information from unauthorized access, alteration, or disclosure.
+            </p>
+            <p>
+              Retention of Information: We retain your personal information only
+              as long as necessary to fulfill the purposes outlined in this
+              policy or as required by law.
+            </p>
+            <h3>5. Your Rights</h3>
+            <p>
+              Access: You have the right to access your personal information and
+              request a copy of the data we hold about you.
+            </p>
+            <p>
+              Correction: You may request corrections if you believe that your
+              information is inaccurate or incomplete.
+            </p>
+            <p>
+              Deletion: You have the right to request the deletion of your
+              personal data, subject to legal obligations.
+            </p>
+            <p>
+              Objection to Processing: You can object to certain types of
+              processing, such as receiving marketing communications, at any
+              time.
+            </p>
+            <p>
+              To exercise these rights, please contact us at
+              rpetstation@gmail.com.
+            </p>
+            <h3>6. Cookies and Tracking</h3>
+            <p>
+              WEBICLIN may use cookies or similar tracking technologies to
+              improve your user experience, track usage patterns, and gather
+              analytical data. You may adjust your browser settings to disable
+              cookies, but this may affect the functionality of certain
+              features.
+            </p>
+            <h3>7. Changes to this Privacy Policy</h3>
+            <p>
+              We reserve the right to update or change this Privacy Policy at
+              any time. We will notify you of any changes by posting the new
+              Privacy Policy on our website. Your continued use of WEBICLIN
+              after the posting of changes constitutes your acceptance of the
+              updated policy.
+            </p>
+            <h3>8. Contact Information</h3>
+            <p>
+              For questions or concerns about this Privacy Policy, please
+              contact us at:
+            </p>
+            <p>Address: 835 M.Naval St. Sipac-Almacen, Navotas, Philippines</p>
+            <p>Email: rpetstation@gmail.com</p>
+            <p>Phone: 0950 491 5646</p>
+
+            <div class="form-actions">
+              <button type="button" class="confirm" id="acceptTermsButton">
+                Accept
+              </button>
+              <button type="button" class="cancel">Decline</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -356,7 +486,12 @@
           <h1>Login</h1>
           <form class="login-form" id="login-form">
             <label for="userType">User Type:</label>
-            <select id="userType" class="custom-select" name="userType" required>
+            <select
+              id="userType"
+              class="custom-select"
+              name="userType"
+              required
+            >
               <option value="admin">Admin</option>
               <option value="employee">Employee</option>
             </select>
@@ -405,9 +540,9 @@
     <script type="module" src="js/admin/addAdminAccount.js"></script>
 
     <script src="js/payment/payment.js"></script>
+    <script src="js/terms.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
-
       function resetForm() {
         // Reset text inputs
         document.getElementById("ownerName").value = "";
@@ -418,23 +553,23 @@
         document.getElementById("address").value = "";
         document.getElementById("schedule-date").value = "";
         document.getElementById("schedule-time").value = "";
-      
+
         // Reset radio buttons
         const petTypeRadios = document.getElementsByName("petType");
-        petTypeRadios.forEach(radio => radio.checked = false);
-      
+        petTypeRadios.forEach((radio) => (radio.checked = false));
+
         const serviceRadios = document.getElementsByName("service");
-        serviceRadios.forEach(radio => radio.checked = false);
-      
+        serviceRadios.forEach((radio) => (radio.checked = false));
+
         // Hide the grooming and veterinary options
         document.getElementById("grooming-options").style.display = "none";
         document.getElementById("veterinary-options").style.display = "none";
-      
+
         // Reset dropdowns
         document.getElementById("groomingService").selectedIndex = 0;
         document.getElementById("size").selectedIndex = 0;
         document.getElementById("veterinaryService").selectedIndex = 0;
-      
+
         // Reset price display
         document.getElementById("price").textContent = "Price:";
       }

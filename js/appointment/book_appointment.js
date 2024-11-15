@@ -128,6 +128,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   size.addEventListener("change", updateGroomingPrice);
   veterinaryService.addEventListener("change", updateVeterinaryPrice);
 
+  const termsModal = document.getElementById("termsModal");
+  const acceptTermsButton = document.getElementById("acceptTermsButton");
+  const declineTermsButton = document.getElementById("declineTermsButton");
+
   // Confirm booking
   confirmButton.addEventListener("click", async function (event) {
     event.preventDefault();
@@ -136,107 +140,125 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    const customerName = document.getElementById("ownerName").value;
-    const customerPhone = document.getElementById("contactNumber").value;
-    const customerEmail = document.getElementById("email").value;
-    const petType = document.querySelector(
-      'input[name="petType"]:checked'
-    ).value;
-    const serviceType = document.querySelector(
-      'input[name="service"]:checked'
-    ).value;
+    // Show the terms modal
+    termsModal.style.display = "block";
 
-    // Ensure serviceType is valid before fetching the selected service
-    const serviceElement = document.getElementById(serviceType + "Service");
-    let selectedService = "";
+    // Wait for the user to accept or decline the terms
+    acceptTermsButton.addEventListener("click", async function () {
+      // Proceed with the booking after accepting terms
+      const customerName = document.getElementById("ownerName").value;
+      const customerPhone = document.getElementById("contactNumber").value;
+      const customerEmail = document.getElementById("email").value;
+      const petType = document.querySelector(
+        'input[name="petType"]:checked'
+      ).value;
+      const serviceType = document.querySelector(
+        'input[name="service"]:checked'
+      ).value;
 
-    // Check if the service element is available
-    if (serviceElement) {
-      const selectedServiceID = serviceElement.value; // Get the service ID
-      try {
-        // Determine the correct collection path based on serviceType
-        let collectionPath = "";
-        if (serviceType === "veterinary") {
-          collectionPath = "services/veterinary/servicesList";
-        } else if (serviceType === "grooming") {
-          collectionPath = "services/grooming/servicesList";
-        } else {
-          console.error("Invalid service type");
-          alert("Invalid service type.");
+      // Ensure serviceType is valid before fetching the selected service
+      const serviceElement = document.getElementById(serviceType + "Service");
+      let selectedService = "";
+
+      // Check if the service element is available
+      if (serviceElement) {
+        const selectedServiceID = serviceElement.value; // Get the service ID
+        try {
+          let collectionPath = "";
+          if (serviceType === "veterinary") {
+            collectionPath = "services/veterinary/servicesList";
+          } else if (serviceType === "grooming") {
+            collectionPath = "services/grooming/servicesList";
+          } else {
+            console.error("Invalid service type");
+            alert("Invalid service type.");
+            return;
+          }
+
+          const serviceDocRef = doc(db, collectionPath, selectedServiceID);
+          const serviceDoc = await getDoc(serviceDocRef);
+          if (serviceDoc.exists()) {
+            selectedService = serviceDoc.data().name;
+          } else {
+            console.error("No such service!");
+            alert("Selected service not found.");
+            return;
+          }
+        } catch (error) {
+          console.error("Error fetching service name: ", error);
+          alert("Error fetching service details.");
           return;
         }
-
-        // Fetch the service details from Firestore using the correct collection path
-        const serviceDocRef = doc(db, collectionPath, selectedServiceID);
-        const serviceDoc = await getDoc(serviceDocRef);
-        if (serviceDoc.exists()) {
-          selectedService = serviceDoc.data().name; 
-        } else {
-          console.error("No such service!");
-          alert("Selected service not found.");
-          return;
-        }
-      } catch (error) {
-        console.error("Error fetching service name: ", error);
-        alert("Error fetching service details.");
+      } else {
+        console.error(
+          "Service element not found for serviceType:",
+          serviceType
+        );
+        alert("Selected service is not valid.");
         return;
       }
-    } else {
-      console.error("Service element not found for serviceType:", serviceType);
-      alert("Selected service is not valid.");
-      return;
-    }
 
-    // If the serviceType is grooming, set the selected size, otherwise null
-    const selectedSize = serviceType === "grooming" ? size.value : null;
-
-    const priceNumeric = parseInt(priceText.textContent.replace(/[^\d]/g, ""));
-    const scheduleDate = document.getElementById("schedule-date").value;
-    const scheduleTime = document.getElementById("schedule-time").value;
-    const status = "pending";
-
-    const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
-
-    try {
-      const appointmentID = await runTransaction(db, async (transaction) => {
-        const counterRef = doc(db, "counters", "bookingCounter");
-        const counterSnap = await transaction.get(counterRef);
-
-        const newCount = counterSnap.exists()
-          ? counterSnap.data().count + 1
-          : 1;
-        transaction.set(counterRef, { count: newCount });
-
-        return String(newCount).padStart(5, "0");
-      });
-
-      const customerBookingData = {
-        customerName,
-        customerPhone,
-        customerEmail,
-        petType,
-        serviceType,
-        selectedService,
-        selectedSize,
-        price: priceNumeric,
-        status,
-        appointmentID,
-        timestamp: new Date(),
-        scheduledDateTime: scheduleDateTime,
-      };
-
-      const bookingsRef = collection(db, "customerBooking");
-      const docRef = await addDoc(bookingsRef, customerBookingData);
-      alert(
-        "Your booking has been confirmed with appointment ID: " + appointmentID
+      const selectedSize = serviceType === "grooming" ? size.value : null;
+      const priceNumeric = parseInt(
+        priceText.textContent.replace(/[^\d]/g, "")
       );
-      document.getElementById("appointmentModal").style.display = "none";
-      resetForm();
-      showPaymentModal(docRef.id);
-    } catch (error) {
-      console.error("Error adding booking: ", error);
-      alert("There was an error with your booking.");
-    }
+      const scheduleDate = document.getElementById("schedule-date").value;
+      const scheduleTime = document.getElementById("schedule-time").value;
+      const status = "pending";
+      const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
+
+      try {
+        const appointmentID = await runTransaction(db, async (transaction) => {
+          const counterRef = doc(db, "counters", "bookingCounter");
+          const counterSnap = await transaction.get(counterRef);
+          const newCount = counterSnap.exists()
+            ? counterSnap.data().count + 1
+            : 1;
+          transaction.set(counterRef, { count: newCount });
+          return String(newCount).padStart(5, "0");
+        });
+
+        const customerBookingData = {
+          customerName,
+          customerPhone,
+          customerEmail,
+          petType,
+          serviceType,
+          selectedService,
+          selectedSize,
+          price: priceNumeric,
+          status,
+          appointmentID,
+          timestamp: new Date(),
+          scheduledDateTime: scheduleDateTime,
+        };
+
+        const bookingsRef = collection(db, "customerBooking");
+        const docRef = await addDoc(bookingsRef, customerBookingData);
+
+        alert(
+          "Your booking has been confirmed with appointment ID: " +
+            appointmentID
+        );
+        document.getElementById("appointmentModal").style.display = "none";
+        resetForm();
+
+        // Now show the payment modal after accepting terms
+        showPaymentModal(docRef.id);
+      } catch (error) {
+        console.error("Error adding booking: ", error);
+        alert("There was an error with your booking.");
+      }
+
+      // Close the terms modal after accepting
+      termsModal.style.display = "none";
+    });
+
+    declineTermsButton.addEventListener("click", function () {
+      // Close the terms modal if the user declines
+      termsModal.style.display = "none";
+      alert("You must accept the terms and conditions to proceed.");
+    });
   });
 
   // Form validation
@@ -259,8 +281,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Validate contact number as numeric
     const contactNumber = document.getElementById("contactNumber").value;
-    if (!/^[0-9]+$/.test(contactNumber)) {
-      alert("Please enter a valid contact number with only numbers.");
+    if (!/^09\d{9}$/.test(contactNumber)) {
+      alert(
+        "Please enter a valid contact number starting with '09' and having 11 digits."
+      );
       return false;
     }
 
@@ -308,27 +332,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("address").value = "";
     document.getElementById("schedule-date").value = "";
     document.getElementById("schedule-time").value = "";
-  
+
     // Reset radio buttons
     const petTypeRadios = document.getElementsByName("petType");
-    petTypeRadios.forEach(radio => radio.checked = false);
-  
+    petTypeRadios.forEach((radio) => (radio.checked = false));
+
     const serviceRadios = document.getElementsByName("service");
-    serviceRadios.forEach(radio => radio.checked = false);
-  
+    serviceRadios.forEach((radio) => (radio.checked = false));
+
     // Hide the grooming and veterinary options
     document.getElementById("grooming-options").style.display = "none";
     document.getElementById("veterinary-options").style.display = "none";
-  
+
     // Reset dropdowns
     document.getElementById("groomingService").selectedIndex = 0;
     document.getElementById("size").selectedIndex = 0;
     document.getElementById("veterinaryService").selectedIndex = 0;
-  
+
     // Reset price display
     document.getElementById("price").textContent = "Price:";
   }
-  
 
   // Payment modal handling
   function showPaymentModal(appointmentID) {

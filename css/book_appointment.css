@@ -209,6 +209,32 @@ select#paymentMethod {
 }
 
 /* Responsive Styles */
+@media (max-width: 1440px) {
+
+  /* On tablet and mobile screens */
+  .modal-content-payment {
+    width: 100%;
+    margin: 10% auto;
+  }
+  .payment-form {
+    flex-direction: row;
+    /* Stack form fields vertically */
+    max-width: 100%;
+  }
+
+  .form-section {
+    width: 100%;
+    padding: 20px;
+    /* Full width for form fields */
+    margin: 0;
+  }
+
+  .form-actions {
+    text-align: center;
+    /* Center buttons on small screens */
+  }
+
+}
 @media (max-width: 768px) {
 
   /* On tablet and mobile screens */
@@ -217,7 +243,8 @@ select#paymentMethod {
     margin: 10% auto;
   }
 
-  .appointment-form {
+  .appointment-form,
+  .payment-form {
     flex-direction: column;
     /* Stack form fields vertically */
     max-width: 100%;

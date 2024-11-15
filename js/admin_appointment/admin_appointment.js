@@ -9,9 +9,6 @@ import {
   getDoc
 } from "../firebase/database.js";
 
-const semaphoreApiKey = "d854e321e04d8e87704d1650a53001d2";
-const semaphoreSender = "rpet_station";
-
 // Search function
 function filterAppointments() {
   const searchTerm = document.getElementById("searchBar").value.toLowerCase();
@@ -53,7 +50,7 @@ async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
 
     // Fetch the customer data (including the phone number)
     const appointmentDoc = await getDoc(appointmentRef); // Use getDoc() instead of get()
-    
+
     if (!appointmentDoc.exists()) {
       console.error("Appointment document not found.");
       return;
@@ -71,7 +68,7 @@ async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
       `Status for appointment with ID: ${appointmentId} has been updated to "${newStatus}" for ${customerName}.`
     );
 
-    // Send SMS using Semaphore after status change
+    // Send SMS using Infobip after status change
     sendSmsNotification(customerPhone, customerName, newStatus);
 
   } catch (error) {
@@ -79,30 +76,68 @@ async function changeAppointmentStatus(appointmentId, customerName, newStatus) {
   }
 }
 
-// Function to send SMS using Semaphore API
+function formatPhoneNumber(phone) {
+  // Ensure the phone number starts with + and remove any non-numeric characters
+  // Add country code logic here as necessary
+  
+  if (phone && !phone.startsWith('+')) {
+    if (phone.startsWith('09')) {
+      return `+63${phone.slice(1)}`;  // Example: For Philippines
+    }
+    // Add more country-specific cases here if needed
+    return `+${phone.replace(/[^0-9]/g, '')}`; // Default case
+  }
+  return phone; // Already in the correct format
+}
+
+
+// Function to send SMS using Infobip API
 async function sendSmsNotification(customerPhone, customerName, status) {
+  const apiKey = "80abfe78942cdf334c1f5c922791b6c4-c24207d8-fa59-4995-b578-104869a2c299";
+  const baseUrl = "https://jjqed4.api.infobip.com";
+  const sender = "447491163443";
+
+  // Ensure phone number is in the correct international format
+  customerPhone = formatPhoneNumber(customerPhone);
+
   const message = `Hello ${customerName}, your appointment status has been updated to: ${status}. Thank you!`;
 
   try {
-    const response = await fetch('http://localhost:3000/send-sms', {
-      method: 'POST',
+    const response = await fetch(`${baseUrl}/sms/2/text/advanced`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `App ${apiKey}`,
       },
-      body: JSON.stringify({ customerPhone, customerName, status }),  // Ensure all fields are here
+      body: JSON.stringify({
+        messages: [
+          {
+            destinations: [{ to: customerPhone }],
+            from: sender,
+            text: message,
+          },
+        ],
+      }),
     });
 
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(`SMS sent to ${customerPhone}`);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.messages?.[0]?.status?.groupName === "PENDING") {
+        console.log(`SMS sent to ${customerPhone}`);
+      } else {
+        console.error("Error sending SMS: ", data);
+      }
     } else {
-      console.error('Error sending SMS: ', data.error);
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      const errorText = await response.text();
+      console.error("Response text:", errorText);
     }
   } catch (error) {
-    console.error('Error sending SMS: ', error);
+    console.error("Error sending SMS: ", error);
   }
 }
+
+
 
 
 // Function to fetch and display data in real-time
