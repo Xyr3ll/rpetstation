@@ -1,9 +1,7 @@
 import {
-  app,
   db,
   collection,
   addDoc,
-  setDoc,
   doc,
   getDoc,
   getDocs,
@@ -203,9 +201,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         priceText.textContent.replace(/[^\d]/g, "")
       );
       const scheduleDate = document.getElementById("schedule-date").value;
-      const scheduleTime = document.getElementById("schedule-time").value;
-      const status = "pending";
-      const scheduleDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
+      const timeRange = document.getElementById("time-range").value;
+
+      if (!scheduleDate || !timeRange) {
+        alert("Please fill out the date and time completely.");
+        return;
+      }
 
       try {
         const appointmentID = await runTransaction(db, async (transaction) => {
@@ -227,11 +228,14 @@ document.addEventListener("DOMContentLoaded", async function () {
           selectedService,
           selectedSize,
           price: priceNumeric,
-          status,
+          status: "pending",
           appointmentID,
           timestamp: new Date(),
-          scheduledDateTime: scheduleDateTime,
+          scheduledDate: scheduleDate,
+          scheduledTime: timeRange,
         };
+
+        console.log("Customer Booking Data:", customerBookingData);
 
         const bookingsRef = collection(db, "customerBooking");
         const docRef = await addDoc(bookingsRef, customerBookingData);
@@ -268,7 +272,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       "contactNumber",
       "email",
       "schedule-date",
-      "schedule-time",
     ];
 
     for (const field of requiredFields) {
@@ -331,7 +334,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("age").value = "";
     document.getElementById("address").value = "";
     document.getElementById("schedule-date").value = "";
-    document.getElementById("schedule-time").value = "";
 
     // Reset radio buttons
     const petTypeRadios = document.getElementsByName("petType");
@@ -358,6 +360,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const paymentModal = document.getElementById("paymentModal");
     paymentModal.style.display = "block";
 
+    fetchPartialPayment(appointmentID);
+
     const confirmPaymentButton = document.getElementById("confirmPayment");
     confirmPaymentButton.onclick = async (event) => {
       event.preventDefault();
@@ -365,6 +369,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 });
+
+async function fetchPartialPayment(appointmentID) {
+  try {
+    // Fetch the document from Firestore
+    const docRef = doc(db, "customerBooking", appointmentID);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const price = docSnap.data().price; // Retrieve the price field
+      const partialPayment = price * 0.25; // Calculate 25% of the price
+
+      // Display the partial payment in the designated element
+      const partialPaymentElement = document.getElementById("partial-payment");
+      partialPaymentElement.textContent = `Partial Payment (25%): ₱${partialPayment.toFixed(
+        2
+      )}`;
+    } else {
+      console.error("No such document!");
+    }
+  } catch (error) {
+    console.error("Error fetching partial payment:", error);
+  }
+}
 
 // Upload proof of payment
 async function uploadProofOfPayment(appointmentID) {
@@ -392,29 +419,3 @@ async function uploadProofOfPayment(appointmentID) {
     alert("Failed to upload payment proof.");
   }
 }
-
-function setMinDateTime() {
-  const dateInput = document.getElementById("schedule-date");
-  const timeInput = document.getElementById("schedule-time");
-
-  // Get the current date and time
-  const now = new Date();
-  const currentDate = now.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
-  const currentTime = now.toTimeString().slice(0, 5); // Format as "HH:MM"
-
-  // Set the minimum date and time
-  dateInput.min = currentDate;
-  timeInput.min = currentTime;
-
-  // If the user selects the current date, set the min time for today
-  dateInput.addEventListener("change", function () {
-    if (dateInput.value === currentDate) {
-      timeInput.min = currentTime; // Set minimum time for today
-    } else {
-      timeInput.min = "00:00"; // Reset for future dates
-    }
-  });
-}
-
-// Call this function when the page loads or the modal opens
-setMinDateTime();

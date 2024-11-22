@@ -21,6 +21,7 @@
       <nav>
         <a href="#home">Home</a>
         <a href="#about">About</a>
+        <a href="#services">Services</a>
         <a href="#login" onclick="openLoginModal()">Login</a>
       </nav>
     </header>
@@ -32,7 +33,6 @@
             <h1>Welcome to <br />R'pet Station</h1>
             <div class="buttons">
               <button onclick="openModal()">Book an appointment</button>
-              <button onclick="openServicesModal()">View Services</button>
             </div>
           </div>
           <div class="hero-image">
@@ -60,6 +60,64 @@
             system simplifies the process, saving you time and ensuring a smooth
             experience.
           </p>
+          <img src="images/location.jfif" alt="" style="max-width: 100%;">
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="services">
+        <div class="services-about">
+          <h2>Our Services</h2>
+          <div class="image-slider">
+            <div class="slides">
+              <div class="slide active">
+                <img src="/images/grooming.jfif" alt="Groomer Service 1" />
+                <p>Grooming</p>
+              </div>
+              <div class="slide">
+                <img src="/images/teethbrush.jfif" alt="Groomer Service 2" />
+                <p>Teeth Brushing</p>
+              </div>
+              <div class="slide">
+                <img src="/images/earcleaning.jfif" alt="Groomer Service 3" />
+                <p>Ear Cleaning</p>
+              </div>
+              <div class="slide">
+                <img src="/images/nailtrim.jfif" alt="Groomer Service 3" />
+                <p>Nail Trim</p>
+              </div>
+              <div class="slide">
+                <img src="/images/bath.jfif" alt="Groomer Service 3" />
+                <p>Bath and Blow Dry</p>
+              </div>
+              <div class="slide">
+                <img src="/images/consultation.jfif" alt="Groomer Service 3" />
+                <p>Consultation</p>
+              </div>
+              <div class="slide">
+                <img src="/images/vaccination.jfif" alt="Groomer Service 3" />
+                <p>Vaccination</p>
+              </div>
+              <div class="slide">
+                <img src="/images/deworming.jfif" alt="Groomer Service 3" />
+                <p>Deworming</p>
+              </div>
+              <div class="slide">
+                <img src="/images/dentalhealth.jfif" alt="Groomer Service 3" />
+                <p>Dental Health</p>
+              </div>
+              <div class="slide">
+                <img src="/images/surgery.jfif" alt="Groomer Service 3" />
+                <p>Surgery</p>
+              </div>
+              <div class="slide">
+                <img src="/images/medicine.jfif" alt="Groomer Service 3" />
+                <p>Medicine and Diet</p>
+              </div>
+            </div>
+            <button class="prev">❮</button>
+            <button class="next">❯</button>
+          </div>
         </div>
       </section>
 
@@ -166,16 +224,18 @@
                 type="date"
                 id="schedule-date"
                 name="schedule-date"
+                placeholder="Select a date"
                 required
                 onkeydown="return false"
               />
-              <input
-                type="time"
-                id="schedule-time"
-                name="schedule-time"
-                required
-                onkeydown="return false"
-              />
+              <div class="time-picker">
+                <!-- Time Range Selector -->
+                <select id="time-range" name="time-range" required>
+                  <option value="" disabled selected>
+                    Select Time Schedule
+                  </option>
+                </select>
+              </div>
             </div>
 
             <div class="form-section owner-info">
@@ -425,7 +485,12 @@
                 <option value="gcash">GCash</option>
                 <option value="paymaya">Paymaya</option>
               </select>
+              <!-- Download QR Code Button -->
+              <button type="button" class="download-qr" onclick="downloadQR()">
+                Download QR Code
+              </button>
 
+              <p id="partial-payment"></p>
               <div class="form-actions">
                 <button type="submit" class="confirm" id="confirmPayment">
                   Submit
@@ -443,43 +508,6 @@
         </div>
       </div>
 
-      <!-- View Services Modal -->
-      <div id="servicesModal" class="modal-services">
-        <div class="modal-content-services">
-          <span class="close-services" onclick="closeServicesModal()"
-            >&times;</span
-          >
-          <div class="services-section">
-            <h2>GROOMING SERVICES</h2>
-            <ul>
-              <li>🐾 Haircut</li>
-              <li>🐾 Teeth Brushing</li>
-              <li>🐾 Ear Cleaning</li>
-              <li>🐾 Nail Trim</li>
-              <li>🐾 Bath and Blow Dry</li>
-            </ul>
-          </div>
-          <div class="services-section">
-            <h2>VETERINARY SERVICES</h2>
-            <ul>
-              <li>🐾 Consultation</li>
-              <li>🐾 Vaccination</li>
-              <li>🐾 Deworming</li>
-              <li>🐾 Dental Health</li>
-              <li>🐾 Surgery</li>
-              <li>🐾 Prescription</li>
-              <li>🐾 Medicine & Diet</li>
-            </ul>
-          </div>
-          <div class="services-image">
-            <img
-              src="images/RPetStationBrand.png"
-              alt="Services Image"
-              style="width: 100%; height: auto"
-            />
-          </div>
-        </div>
-      </div>
       <!-- Login Modal -->
       <div id="loginModal" class="modal-login">
         <div class="modal-content-login">
@@ -536,11 +564,16 @@
     </footer>
 
     <script type="module" src="../js/appointment/book_appointment.js"></script>
+    <script type="module" src="../js/appointment/date_time.js"></script>
+
     <script type="module" src="js/admin/login.js"></script>
     <script type="module" src="js/admin/addAdminAccount.js"></script>
 
+    <script src="js/slide_about.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
     <script src="js/payment/payment.js"></script>
-    <script src="js/terms.js"></script>
     <!--SCRIPT FOR SERVICES-->
     <script>
       function resetForm() {
@@ -572,25 +605,6 @@
 
         // Reset price display
         document.getElementById("price").textContent = "Price:";
-      }
-      // Function to open the services modal
-      function openServicesModal() {
-        const modal = document.getElementById("servicesModal");
-        modal.style.display = "block";
-        setTimeout(() => {
-          document
-            .querySelector(".modal-content-services")
-            .classList.add("show");
-        }, 10); // Small delay to trigger the transition
-      }
-
-      // Function to close the services modal
-      function closeServicesModal() {
-        const modalContent = document.querySelector(".modal-content-services");
-        modalContent.classList.remove("show");
-        setTimeout(() => {
-          document.getElementById("servicesModal").style.display = "none";
-        }, 400); // Match the transition duration
       }
 
       // Open the modal

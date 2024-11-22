@@ -208,6 +208,29 @@ select#paymentMethod {
   background-size: 16px;
 }
 
+.download-qr {
+  width: 40%;
+  padding: 4px;
+  border-radius: 4px;
+  border: none;
+}
+
+.time-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.time-picker select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+#partial-payment {
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
 /* Responsive Styles */
 @media (max-width: 1440px) {
 
